@@ -1,0 +1,1969 @@
+{
+  "project_name": "ECG_PRO_Library_Full_V3",
+  "language": "zh-CN",
+  "version": "v3.0",
+  "card_count": 60,
+  "cards": [
+    {
+      "id": 1,
+      "concept_name": "Atrial Fibrillation",
+      "中文名": "心房颤动",
+      "category": "节律",
+      "scp_code": "AFIB",
+      "aha_code": "50",
+      "一句话定义": "心房电活动高度紊乱导致 P 波消失，心室反应呈“绝对不规则”的节律。",
+      "关键判读点": [
+        "【一眼定性】RR 间期绝对不规则 (Irregularly irregular)。",
+        "【基线特征】无重复出现的窦性 P 波，代之以形态、振幅不一的 f 波。",
+        "【形态】QRS 波通常为窄波，除非伴差传或原有束支阻滞。"
+      ],
+      "image_url": "./images/1.jpg",
+      "image_note": "重点校对 RR 间期的跳变；标注时注意 P 始/末点应设为无效。",
+      "annotation_sop": {
+        "p_axis": "不可见。标注员必须将 P_on 和 P_off 标记为 NULL（不标注）。",
+        "qrs_specs": "窄波群。标注 QRS_on/off 时需避开基线 f 波的细微干扰。",
+        "six_point_strategy": "P始/末：NULL | QRS：常规 | T始/末：常规标注趋势回归点。"
+      },
+      "measurement_benchmarks": {
+        "RR_variation": "相邻 RR 间期互差通常 > 120ms",
+        "Atrial_rate": "350-600 bpm (f波频率)",
+        "P_wave_presence": "Absent"
+      },
+      "decision_logic": "无 P 波 + RR 间期绝对不等 = 标注 AFIB",
+      "expert_summaries": {
+        "local": "国内强调“三不一消失”。标注时最忌讳将基线粗大的 f 波误认为 P 波。",
+        "intl": "强调识别 Ashman 现象（长-短周期后的宽 QRS），避免误标为室早。",
+        "confusion": "多源性房性心动过速 (MAT)、房扑伴多变传导"
+      },
+      "一句话机制解释": "心房内多个异位起搏点与微折返环导致有序收缩丧失。",
+      "最易混淆对象": [
+        "多源性房性心动过速 (MAT)",
+        "房扑伴多变传导"
+      ]
+    },
+    {
+      "id": 2,
+      "concept_name": "Atrial Flutter",
+      "中文名": "心房扑动",
+      "category": "节律",
+      "scp_code": "AFLT",
+      "aha_code": "51",
+      "一句话定义": "心房大折返导致的极规整锯齿样扑动波（F 波），常伴比例传导。",
+      "关键判读点": [
+        "【形态】连续规则的锯齿样 F 波，II、III、aVF 最典型。",
+        "【频率】心房率通常在 250–350 bpm，节律极稳定。",
+        "【等电位线】基线平坦段消失，波形连续。"
+      ],
+      "image_url": "./images/2.jpg",
+      "image_note": "标注 F 波的波谷作为周期点。2:1 传导时，一个 F 波常隐藏在 QRS 中。",
+      "annotation_sop": {
+        "p_axis": "P波被 F 波取代。标注员应寻找 F 波的转折波谷点作为伪 P 点位置。",
+        "qrs_specs": "QRS 常常嵌入 F 波之中，标注 QRS_on 时需注意区分 F 波的下行支。",
+        "six_point_strategy": "P点：标记 F 波特征位置 | QRS/T：常规"
+      },
+      "measurement_benchmarks": {
+        "Atrial_rate": "250-350 bpm (极规整)",
+        "Ventricular_rate": "通常为 150 bpm (2:1) 或 75 bpm (4:1)"
+      },
+      "decision_logic": "连续锯齿 F 波 + 固定的房室传导比例 = 标注 AFLT",
+      "expert_summaries": {
+        "local": "2:1 房扑常导致 150bpm 的窄心速，极易误诊为窦速。",
+        "intl": "强调 Bix Rule：当心室率正好是 F 波率的一半时，要警惕埋藏的波形。",
+        "confusion": "阵发性室上速 (SVT)、窦性心动过速"
+      },
+      "一句话机制解释": "心房内围绕三尖瓣环的大折返环路持续快速循环。",
+      "最易混淆对象": [
+        "阵发性室上速 (SVT)",
+        "窦性心动过速 (2:1传导时)"
+      ]
+    },
+    {
+      "id": 3,
+      "concept_name": "Premature Atrial Contraction",
+      "中文名": "房性早搏",
+      "category": "节律",
+      "scp_code": "PAC",
+      "aha_code": "30",
+      "一句话定义": "起源于窦房结以外心房异位灶的提前激动。",
+      "关键判读点": [
+        "【特征】提前出现的 P' 波，形态与窦性 P 波不同。",
+        "【代偿】早搏后多见不完全代偿间歇。"
+      ],
+      "image_url": "./images/3.jpg",
+      "image_note": "关注 T 波形态的变化，识别叠加在 T 波降支上的 P' 波。",
+      "annotation_sop": {
+        "p_axis": "核心标注点。P_on 提前出现。若埋在 T 波里，标记 T 波波形突变处。",
+        "qrs_specs": "通常正常。若 QRS 增宽，需标注为‘房早伴差异传导’。",
+        "six_point_strategy": "P始：重点标记提前量 | T末：需校对是否有叠加 P"
+      },
+      "measurement_benchmarks": {
+        "PP_interval": "P'-P 间期 < 基础 PP 间期",
+        "Compensatory_pause": "不完全代偿 (< 2个正常周期)"
+      },
+      "decision_logic": "提前 P' 波 + 窄 QRS + 不完全代偿 = 标注 PAC",
+      "expert_summaries": {
+        "local": "国内称之为‘房早’。强调通过 T 波是否‘变尖、变形’来寻找隐藏房早。",
+        "intl": "强调识别 Blocked PAC（未下传房早），避免算法误标为房室阻滞。",
+        "confusion": "室性早搏 (PVC)、窦性心律不齐"
+      },
+      "一句话机制解释": "心房内异位灶自律性增高，抢在窦房结前发放激动。",
+      "最易混淆对象": [
+        "窦性心律不齐",
+        "未下传房早导致的假性停搏"
+      ]
+    },
+    {
+      "id": 4,
+      "concept_name": "Premature Ventricular Contraction",
+      "中文名": "室性早搏",
+      "category": "节律",
+      "scp_code": "PVC",
+      "aha_code": "60",
+      "一句话定义": "心室异位灶提前发放激动，形成宽大畸形 QRS 及完全代偿间歇。",
+      "关键判读点": [
+        "【形态】提前出现的宽大 QRS (> 120ms)，前无相关 P 波。",
+        "【复极】ST 段及 T 波方向常与主波方向相反。"
+      ],
+      "image_url": "./images/4.jpg",
+      "image_note": "标注宽大畸形的 QRS 总宽，注意完全代偿间歇的长度。",
+      "annotation_sop": {
+        "p_axis": "QRS 前无相关 P。标记 P_on/off 为 NULL。",
+        "qrs_specs": "QRS_on 到 QRS_off 显著增宽。J 点通常位于主波反方向。",
+        "six_point_strategy": "P始/末：NULL | QRS：标记起点与形态转折终点"
+      },
+      "measurement_benchmarks": {
+        "QRS_duration": "> 120ms",
+        "Compensatory_pause": "完全代偿 (= 2个正常周期)"
+      },
+      "decision_logic": "无相关 P + 提前宽大 QRS + 完全代偿 = 标注 PVC",
+      "expert_summaries": {
+        "local": "强调‘提前、宽大、畸形’。区分单源与多源。",
+        "intl": "关注 PVC 负荷（24h占比）对心肌病风险的临床预测价值。",
+        "confusion": "房早伴差异传导、室性逸搏"
+      },
+      "一句话机制解释": "希氏束分叉以下异位起搏点提前除极，导致心室收缩不协调。",
+      "最易混淆对象": [
+        "房早伴差异传导",
+        "室性逸搏"
+      ]
+    },
+    {
+      "id": 5,
+      "concept_name": "First-degree AV Block",
+      "中文名": "一度房室传导阻滞",
+      "category": "传导",
+      "scp_code": "1AVB",
+      "aha_code": "82",
+      "一句话定义": "房室传导时间恒定延长，但每个心房激动均能下传至心室。",
+      "关键判读点": [
+        "【参数】PR 间期恒定且 > 200 ms。",
+        "【比例】P:QRS = 1:1，无激动脱漏。"
+      ],
+      "image_url": "./images/5.jpg",
+      "image_note": "精准标注 P_on 到 QRS_on 的距离，确保跨越 5 个小格。",
+      "annotation_sop": {
+        "p_axis": "P_on 和 P_off 必须清晰标注，用于计算精确 PR 间期。",
+        "qrs_specs": "QRS 起始点标注需排除 U 波干扰。",
+        "six_point_strategy": "六点完整：重点标记长 PR 段"
+      },
+      "measurement_benchmarks": {
+        "PR_interval": "> 200ms",
+        "Stability": "固定不变"
+      },
+      "decision_logic": "PR > 200ms + 无掉搏 = 标注 1AVB",
+      "expert_summaries": {
+        "local": "国内提示注意迷走神经功能，不应盲目诊断病理性阻滞。",
+        "intl": "强调 Mark 1st degree (>300ms) 可能导致的房室收缩不同步。",
+        "confusion": "二度 I 型 (文氏)、运动员生理变异"
+      },
+      "一句话机制解释": "房室结内传导功能生理性或病理性减慢。",
+      "最易混淆对象": [
+        "二度 I 型房室阻滞",
+        "运动员生理性 PR 延长"
+      ]
+    },
+    {
+      "id": 6,
+      "concept_name": "Second-degree AV Block Mobitz I",
+      "中文名": "二度 I 型房室阻滞 (文氏现象)",
+      "category": "传导",
+      "scp_code": "2AVB",
+      "aha_code": "None",
+      "一句话定义": "PR 间期逐渐延长，直至一个 P 波不能下传导致漏搏的周期性障碍。",
+      "关键判读点": [
+        "【动态】PR 间期逐搏延长，直至脱漏。",
+        "【规律】脱漏后的首个 PR 间期最短。"
+      ],
+      "image_url": "./images/6.jpg",
+      "image_note": "标注脱漏前的 P 波。其 QRS_on 应标记为 NULL。",
+      "annotation_sop": {
+        "p_axis": "P_on/off 逐个标注。在脱漏处仅标 P。",
+        "qrs_specs": "QRS_on 标注点会随周期推移而明显延后。",
+        "six_point_strategy": "动态监测 PR 增量"
+      },
+      "measurement_benchmarks": {
+        "PR_trend": "Progressive increase",
+        "RR_trend": "逐渐缩短直至掉搏"
+      },
+      "decision_logic": "PR 步步延长 + 突发掉搏 = 标注 2AVB-I",
+      "expert_summaries": {
+        "local": "口诀：PR 逐长、QRS 渐短、最后脱落。",
+        "intl": "强调 Wenckebach footprints，通常为房室结水平阻滞。",
+        "confusion": "未下传房早、二度 II 型"
+      },
+      "一句话机制解释": "房室结传导具有递减性，细胞越发疲劳直至无法通过激动。",
+      "最易混淆对象": [
+        "未下传房早",
+        "二度 II 型房室阻滞"
+      ]
+    },
+    {
+      "id": 7,
+      "concept_name": "Second-degree AV Block Mobitz II",
+      "中文名": "二度 II 型房室阻滞",
+      "category": "传导",
+      "scp_code": "2AVB",
+      "aha_code": "None",
+      "一句话定义": "PR 间期固定，但间歇性突发 P 波下传中断（掉搏）。",
+      "关键判读点": [
+        "【稳定】掉搏前的 PR 间期完全固定。",
+        "【高危】常伴 QRS 增宽，预示病变在希氏束以下。"
+      ],
+      "image_url": "./images/7.jpg",
+      "image_note": "关注掉搏前后的 PR 间期，应高度一致。",
+      "annotation_sop": {
+        "p_axis": "必须标注掉搏那个 P 波的 P_on/off。",
+        "qrs_specs": "若合并束支阻滞，需精准标注 QRS 增宽段。"
+      },
+      "measurement_benchmarks": {
+        "PR_interval": "Fixed (恒定)",
+        "Drop_pattern": "突然脱漏"
+      },
+      "decision_logic": "PR 固定 + 突然掉搏 = 标注 2AVB-II",
+      "expert_summaries": {
+        "local": "国内视为起搏器植入的强指征，风险远高于 I 型。",
+        "intl": "强调 All-or-none（全或无）传导特征，代表希浦系统器质性损伤。",
+        "confusion": "房早未下传、2:1 房室阻滞"
+      },
+      "一句话机制解释": "希浦系统“全或无”传导失效，多由器质性病变引起。",
+      "最易混淆对象": [
+        "二度 I 型房室阻滞",
+        "窦性停搏"
+      ]
+    },
+    {
+      "id": 8,
+      "concept_name": "Third-degree AV Block",
+      "中文名": "三度房室传导阻滞 (完全性)",
+      "category": "传导",
+      "scp_code": "3AVB",
+      "aha_code": "88",
+      "一句话定义": "心房与心室电活动完全独立，表现为完全的房室分离。",
+      "关键判读点": [
+        "【分离】P 波与 QRS 互不相关，频率各自恒定。",
+        "【频率】房率 > 室率。"
+      ],
+      "image_url": "./images/8.jpg",
+      "image_note": "找出并标注所有被 QRS 或 T 波淹没的 P 波。",
+      "annotation_sop": {
+        "p_axis": "极高频标注。必须扫描全导联找齐所有 P_on/off。",
+        "qrs_specs": "逸搏心律标注。若 QRS 宽，标记 QRS_on 在斜坡起点。"
+      },
+      "measurement_benchmarks": {
+        "Atrial_rate": "通常 60-100 bpm",
+        "Ventricular_rate": "20-40 bpm (规整)",
+        "PR_interval": "Variable (随机)"
+      },
+      "decision_logic": "P规整 + QRS规整 + 两者无关 = 标注 3AVB",
+      "expert_summaries": {
+        "local": "口诀：房走房的，室走室的。临床注意阿-斯综合征。",
+        "intl": "强调逸搏源定位：窄 QRS (交界性) 优于宽 QRS (室性)。",
+        "confusion": "高度房室阻滞、干扰性房室分离"
+      },
+      "一句话机制解释": "房室传导系统的完全电绝缘，心室依赖低位起搏点自律性维持。",
+      "最易混淆对象": [
+        "高度房室传导阻滞",
+        "干扰性房室分离"
+      ]
+    },
+    {
+      "id": 9,
+      "concept_name": "Right Bundle Branch Block",
+      "中文名": "右束支传导阻滞",
+      "category": "传导",
+      "scp_code": "CRBBB",
+      "aha_code": "106",
+      "一句话定义": "由于右束支传导受阻导致右室延迟除极，V1 呈 rsR' 形态。",
+      "关键判读点": [
+        "【参数】QRS ≥ 120 ms。",
+        "【特征】V1 呈 rsR'（兔耳征），侧壁导联见宽钝 S 波。"
+      ],
+      "image_url": "./images/9.jpg",
+      "image_note": "标注 V1 的第二个 R 峰（R'）的终点作为 QRS_off。",
+      "annotation_sop": {
+        "qrs_specs": "QRS_off 需标在 R' 回归基线的转折处。S 波标注需包含其宽钝特征。",
+        "six_point_strategy": "重点标注 V1 M型波的三个转折点"
+      },
+      "measurement_benchmarks": {
+        "QRS_duration": "≥ 120ms",
+        "V1_Pattern": "rsR' (M型)"
+      },
+      "decision_logic": "QRS宽 + V1兔耳 + 侧壁宽深S = 标注 RBBB",
+      "expert_summaries": {
+        "local": "常用“V1 看 M 型”辅助记忆。注意区分不完全性阻滞。",
+        "intl": "强调‘MaRRoW’记忆法。右侧导联继发 ST-T 改变是正常现象。",
+        "confusion": "Brugada 综合征、RVH"
+      },
+      "一句话机制解释": "右束支传导中断，右室除极需通过心肌间缓慢传导完成。",
+      "最易混淆对象": [
+        "Brugada 综合征",
+        "右心室肥厚 (RVH)"
+      ]
+    },
+    {
+      "id": 10,
+      "concept_name": "Left Bundle Branch Block",
+      "中文名": "左束支传导阻滞",
+      "category": "传导",
+      "scp_code": "CLBBB",
+      "aha_code": "104",
+      "一句话定义": "左束支完全中断导致左室最后除极，伴随显著复极异常。",
+      "关键判读点": [
+        "【参数】QRS ≥ 120 ms。",
+        "【特征】V5/V6 呈宽大带切迹 R 波，V1 呈深宽 QS 型。"
+      ],
+      "image_url": "./images/10.jpg",
+      "image_note": "寻找 V6 R 波顶部的凹陷（切迹），标注其为 QRS 终段特征。",
+      "annotation_sop": {
+        "qrs_specs": "侧壁导联 QRS_on 通常无 q。QRS_off 标在宽大 R 波结束处。",
+        "st_t_logic": "ST-T 必须标注为与 QRS 主向量方向相反。"
+      },
+      "measurement_benchmarks": {
+        "QRS_duration": "≥ 120ms",
+        "Lateral_q": "Absent (缺失)"
+      },
+      "decision_logic": "QRS宽 + V1深QS + V6宽大切迹R = 标注 LBBB",
+      "expert_summaries": {
+        "local": "‘左束支一断，多有心脏病’。强调对心梗诊断的严重掩盖。",
+        "intl": "强调 Appropriate Discordance。ST 与 QRS 同向则高度怀疑梗死。",
+        "confusion": "LVH 伴劳损、心室起搏"
+      },
+      "一句话机制解释": "左束支传导中断，左室除极顺序完全逆转（由右向左）。",
+      "最易混淆对象": [
+        "左心室肥厚 (LVH) 伴劳损",
+        "心室起搏心律"
+      ]
+    },
+    {
+      "id": 11,
+      "concept_name": "Left Ventricular Hypertrophy",
+      "中文名": "左心室肥厚",
+      "category": "肥厚",
+      "scp_code": "LVH",
+      "aha_code": "142",
+      "一句话定义": "左室心肌质量增加导致电压显著增高及继发 ST-T 劳损。",
+      "关键判读点": [
+        "【电压】RV5 + SV1 > 3.5/4.0 mV。",
+        "【劳损】V5-V6 ST 段斜型压低接不对称 T 倒置。"
+      ],
+      "image_url": "./images/11.jpg",
+      "image_note": "振幅标注是重中之重。确保峰-峰值测量不跨行。",
+      "annotation_sop": {
+        "qrs_specs": "精准标注 V1/V2 的 S 谷与 V5/V6 的 R 峰高度。",
+        "st_t_logic": "标注 Strain 模式下的 ST 压低段和倒置 T 峰。"
+      },
+      "measurement_benchmarks": {
+        "Sokolow_Lyon": "SV1 + RV5 > 3.5mV",
+        "ST_T_Strain": "Present in V5-V6"
+      },
+      "decision_logic": "高电压 + V5/V6 ST-T 倒置 = 标注 LVH",
+      "expert_summaries": {
+        "local": "国内长期采用 Sokolow-Lyon 标准。需结合临床高血压史。",
+        "intl": "更倾向 Cornell 标准。强调复极异常与左室质量指数的正相关性。",
+        "confusion": "左束支阻滞、生理性高电压"
+      },
+      "一句话机制解释": "心肌细胞代偿性增粗，导致除极电向量增大及复极顺序改变。",
+      "最易混淆对象": [
+        "左束支阻滞",
+        "生理性高电压"
+      ]
+    },
+    {
+      "id": 12,
+      "concept_name": "Left Atrial Enlargement",
+      "中文名": "左心房增大",
+      "category": "肥厚",
+      "scp_code": "LAO/LAE",
+      "aha_code": "140",
+      "一句话定义": "左房肥厚或扩大导致心房总除极时间延长，P 波增宽双峰。",
+      "关键判读点": [
+        "【形态】II 导联 P 波双峰，间距 > 40ms。",
+        "【参数】P 波总时限 ≥ 120 ms。"
+      ],
+      "image_url": "./images/12.jpg",
+      "image_note": "放大并精准标注 P_on 到 P_off 的宽度，捕捉骆驼背形态。",
+      "annotation_sop": {
+        "p_axis": "极度重要。必须点准 P 波的起跳点与回归点。标记两个 P 峰点位。",
+        "six_point_strategy": "P 间期是唯一核心度量"
+      },
+      "measurement_benchmarks": {
+        "P_duration": "≥ 120ms",
+        "P_notch_gap": "> 40ms"
+      },
+      "decision_logic": "P波宽 + 双峰 = 标注 LAE (二尖瓣型P)",
+      "expert_summaries": {
+        "local": "习称‘二尖瓣型 P 波’，常提示瓣膜性心脏病。",
+        "intl": "强调 V1 导联 PtfV1 指标的诊断特异性。",
+        "confusion": "房内传导延迟、右房增大"
+      },
+      "一句话机制解释": "左心房扩大导致心房总除极向量向左后方延长且延后。",
+      "最易混淆对象": [
+        "房内传导延迟",
+        "右心房增大"
+      ]
+    },
+    {
+      "id": 13,
+      "concept_name": "ST-segment Elevation MI",
+      "中文名": "ST段抬高型心肌梗死",
+      "category": "缺血梗死",
+      "scp_code": "AMI",
+      "aha_code": "160",
+      "一句话定义": "急性冠脉完全闭塞导致跨壁损伤，表现为 J 点后 ST 段显著抬高。",
+      "关键判读点": [
+        "【形态】弓背向上抬高。伴镜像压低。"
+      ],
+      "image_url": "./images/13.jpg",
+      "image_note": "J 点是测量基准。标注时寻找 S 波回归的转折点。",
+      "annotation_sop": {
+        "qrs_specs": "QRS_off (J点) 必须标在斜率突变转折处，即使其位于等电位线上方。",
+        "st_t_logic": "标注 J 点后 60ms 处的 ST 位移。若与 T 融合，T_on 取 J+80ms。",
+        "six_point_strategy": "QRS终点定位直接影响抬高幅度的量化"
+      },
+      "measurement_benchmarks": {
+        "ST_elevation": "> 0.1mV (在 J 点后 60ms)",
+        "Morphology": "Convex (弓背向上)"
+      },
+      "decision_logic": "J点抬高 + 弓背向上 + 镜像压低 = 标注 STE",
+      "expert_summaries": {
+        "local": "强调‘时间就是心肌’。识别弓背向上是急性期核心。",
+        "intl": "执行第四版 MI 全球定义。关注不同性别/年龄的 V2-V3 阈值差异。",
+        "confusion": "急性心包炎、良性早期复极"
+      },
+      "一句话机制解释": "冠脉持续完全闭塞产生向心外膜方向的跨壁损伤电流。",
+      "最易混淆对象": [
+        "急性心包炎",
+        "良性早期复极"
+      ]
+    },
+    {
+      "id": 14,
+      "concept_name": "Reciprocal Change",
+      "中文名": "镜像改变",
+      "category": "缺血梗死",
+      "scp_code": "None",
+      "aha_code": "None",
+      "一句话定义": "STEMI 发生时，解剖相对导联出现的“倒影样”ST 段压低。",
+      "image_url": "./images/14.jpg",
+      "annotation_sop": {
+        "st_t_logic": "标注压低导联的下移深度，确认其水平或下斜形态。"
+      },
+      "measurement_benchmarks": {
+        "ST_depression": "In reciprocal leads",
+        "Significance": "Strong support for STEMI"
+      },
+      "decision_logic": "一侧抬高 + 对侧压低 = 确认梗死诊断",
+      "expert_summaries": {
+        "local": "国内视为鉴别心包炎（无镜像）的重要依据。",
+        "intl": "提倡‘镜像改变即梗死’。关注 aVL 对下壁梗死的预警作用。",
+        "confusion": "单纯缺血压低、洋地黄效应"
+      },
+      "一句话机制解释": "心电向量在受损区对侧导联产生的反向投射偏移。",
+      "最易混淆对象": [
+        "单纯性心肌缺血",
+        "洋地黄效应"
+      ]
+    },
+    {
+      "id": 15,
+      "concept_name": "Wellens Syndrome",
+      "中文名": "Wellens 综合征",
+      "category": "缺血梗死",
+      "scp_code": "None",
+      "aha_code": "None",
+      "一句话定义": "预示左前降支 (LAD) 高危狭窄的特殊 T 波演变（深倒或双相）。",
+      "image_url": "./images/15.jpg",
+      "annotation_sop": {
+        "t_logic": "标注重点。必须体现 V2-V3 T 波的极度对称性与深度。"
+      },
+      "measurement_benchmarks": {
+        "T_wave_shape": "Deeply inverted or Biphasic in V2-V3",
+        "ST_segment": "Near isoelectric"
+      },
+      "decision_logic": "胸痛缓解 + V2-V3 深对称 T 倒置 = 标注 Wellens",
+      "expert_summaries": {
+        "local": "国内称为‘前降支 T 波综合征’。禁做运动负荷试验。",
+        "intl": "视为 STEMI Equivalent。提示随时可能发生大面积前壁梗死。",
+        "confusion": "肺栓塞、脑源性 T 波"
+      },
+      "一句话机制解释": "左前降支(LAD)间歇闭塞与再灌注导致的心肌顿挫表现。",
+      "最易混淆对象": [
+        "脑源性 T 波",
+        "急性肺栓塞"
+      ]
+    },
+    {
+      "id": 16,
+      "concept_name": "De Winter Pattern",
+      "中文名": "de Winter 征",
+      "category": "缺血梗死",
+      "scp_code": "None",
+      "aha_code": "None",
+      "一句话定义": "LAD 完全闭塞的一种特殊等危征：J 点压低接高尖 T 波。",
+      "image_url": "./images/16.jpg",
+      "annotation_sop": {
+        "qrs_specs": "QRS_off 位于等电位线下方。标注需定位上斜型 ST 段的起始点。",
+        "t_logic": "T_on 与 ST 段无分界，标注需体现平滑上升的火箭感。"
+      },
+      "measurement_benchmarks": {
+        "J_depression": "1-3mm upsloping ST",
+        "T_wave": "Tall, symmetric, hyperacute"
+      },
+      "decision_logic": "J点压低 + 上斜 ST + 高尖 T = 标注 de Winter",
+      "expert_summaries": {
+        "local": "国内近十年高度关注。必须按急诊 PCI 绿通处理。",
+        "intl": "2008年首次描述，可见于约 2% 的急性前壁梗死。",
+        "confusion": "高钾血症、良性早复极"
+      },
+      "一句话机制解释": "LAD 急性完全闭塞，由于浦肯野纤维特殊受损导致无传统 ST 抬高。",
+      "最易混淆对象": [
+        "高钾血症",
+        "良性早期复极"
+      ]
+    },
+    {
+      "id": 17,
+      "concept_name": "Posterior Myocardial Infarction",
+      "中文名": "后壁心肌梗死",
+      "category": "缺血梗死",
+      "scp_code": "PMI",
+      "aha_code": "162",
+      "一句话定义": "发生在后壁的梗死，在 V1-V3 表现为镜像高 R 波与 ST 压低。",
+      "image_url": "./images/17.jpg",
+      "annotation_sop": {
+        "qrs_specs": "精准标注 V1 的 R 峰与 S 谷，用于 R/S 比值计算。",
+        "st_t_logic": "标注 V1-V3 的水平型 ST 压低及直立高耸的 T 波。"
+      },
+      "measurement_benchmarks": {
+        "V1_RS_ratio": "> 1",
+        "V1_R_width": "> 40ms"
+      },
+      "decision_logic": "V1高R + V1-V3 ST水平压低 = 标注后壁心梗镜像",
+      "expert_summaries": {
+        "local": "常规建议加做 V7-V9 导联寻找直接抬高证据。",
+        "intl": "强调镜像翻转测试（Mirror Test）。",
+        "confusion": "RVH、前壁缺血"
+      },
+      "一句话机制解释": "左室后壁受损产生背离前壁方向的损伤电流。",
+      "最易混淆对象": [
+        "前壁单纯性缺血",
+        "右心室肥厚"
+      ]
+    },
+    {
+      "id": 18,
+      "concept_name": "Lead Misplacement",
+      "中文名": "导联错放 (左右手)",
+      "category": "mimic",
+      "scp_code": "None",
+      "aha_code": "None",
+      "一句话定义": "左右手肢体电极反接导致的异常波形翻转。",
+      "image_url": "./images/18.jpg",
+      "annotation_sop": {
+        "p_axis": "重点校对 aVR 导联 P_on 的极性（正常应为负）。",
+        "expert_tip": "若 I 导全倒且 aVR 为正，标注员应在备注备注：疑似 Lead Reversal。"
+      },
+      "measurement_benchmarks": {
+        "Lead_I_P": "Negative",
+        "aVR_P": "Positive"
+      },
+      "decision_logic": "I全倒 + aVR P正向 + 胸导 R 波递增正常 = 标注导联反接",
+      "expert_summaries": {
+        "local": "口诀：红黄蓝黑。强调判读前先核对质控。",
+        "intl": "区分‘镜像关系’。aVR 是识图的第一道过滤网。",
+        "confusion": "右位心、高侧壁梗死"
+      },
+      "一句话机制解释": "左右手肢体电极物理位置反置，导致记录坐标系 180 度翻转。",
+      "最易混淆对象": [
+        "右位心 (Dextrocardia)",
+        "高侧壁心肌梗死"
+      ]
+    },
+    {
+      "id": 19,
+      "concept_name": "Ventricular Tachycardia",
+      "中文名": "室性心动过速",
+      "category": "节律",
+      "scp_code": "PVC",
+      "aha_code": "60",
+      "一句话定义": "三个及以上快速心室激动，伴房室分离及宽大畸形 QRS。",
+      "image_url": "./images/19.jpg",
+      "annotation_sop": {
+        "qrs_specs": "标注 QRS_on/off 的总时限。寻找室性融合波特征点。",
+        "p_axis": "若隐约可见分离的 P 波，需单独标注 P_on/off。"
+      },
+      "measurement_benchmarks": {
+        "QRS_duration": "> 120ms",
+        "Rate": "140-250 bpm",
+        "Axis": "Often Extreme (西北电轴)"
+      },
+      "decision_logic": "宽 QRS 连发 + 规整快节奏 + 房室分离 = 标注 VT",
+      "expert_summaries": {
+        "local": "国内建议‘宽 QRS 心速优先按 VT 处理’。",
+        "intl": "应用 Brugada 四步法逻辑鉴别。强调室性融合波的金标价值。",
+        "confusion": "SVT 伴差传、预激性心速"
+      },
+      "一句话机制解释": "心室内折返环或自律性极高灶触发的高频室性节律。",
+      "最易混淆对象": [
+        "室上速伴差异传导",
+        "预激性心动过速"
+      ]
+    },
+    {
+      "id": 20,
+      "concept_name": "Supraventricular Tachycardia",
+      "中文名": "阵发性室上速",
+      "category": "节律",
+      "scp_code": "SVTAC",
+      "aha_code": "55",
+      "一句话定义": "绝对规整的窄 QRS 心速，通常由房室结内或房室折返引起。",
+      "image_url": "./images/20.jpg",
+      "annotation_sop": {
+        "p_axis": "寻找 QRS 终末的微小偏转点（逆传 P），标注为 P' 波点。",
+        "qrs_specs": "窄波群。标注需对齐基线，寻找第一个极小偏转。"
+      },
+      "measurement_benchmarks": {
+        "Rate": "150-250 bpm",
+        "Regularity": "Extremely regular"
+      },
+      "decision_logic": "窄 QRS + 绝对规整 + 突发突止 = 标注 SVT",
+      "expert_summaries": {
+        "local": "常用物理刺激迷走神经尝试复律。强调突发突止病史。",
+        "intl": "强调根据 RP 间期进行鉴别诊断（短 RP vs 长 RP）。",
+        "confusion": "窦速、房扑 2:1 传导"
+      },
+      "一句话机制解释": "房室结内双径路折返或房室旁路引起的环路折返。",
+      "最易混淆对象": [
+        "窦性心动过速",
+        "房扑 2:1 传导"
+      ]
+    },
+    {
+      "id": 21,
+      "concept_name": "Ventricular Fibrillation",
+      "中文名": "心室颤动",
+      "category": "节律",
+      "scp_code": "None",
+      "aha_code": "None",
+      "一句话定义": "心室发生极度混乱的快速颤动，机械射血停止。",
+      "image_url": "./images/21.jpg",
+      "annotation_sop": {
+        "six_point_strategy": "全点位 NULL。标注员应标注整个区间的‘Fibrillation’属性。"
+      },
+      "measurement_benchmarks": {
+        "Morphology": "Chaotic (无规整形态)",
+        "Clinical": "Cardiac Arrest"
+      },
+      "decision_logic": "无 P-QRS-T 结构 + 杂乱波动 = 标注 VF",
+      "expert_summaries": {
+        "local": "区分粗颤与细颤。立即除颤。",
+        "intl": "警告：若患者清醒，必为伪差干扰。",
+        "confusion": "干扰伪差、尖端扭转室速"
+      },
+      "一句话机制解释": "心室肌内无数微小折返环导致的电生理“风暴”。",
+      "最易混淆对象": [
+        "电极干扰伪差",
+        "尖端扭转室速 (TdP)"
+      ]
+    },
+    {
+      "id": 22,
+      "concept_name": "Wolff-Parkinson-White Syndrome",
+      "中文名": "预激综合征",
+      "category": "传导",
+      "scp_code": "WPW",
+      "aha_code": "None",
+      "一句话定义": "旁路抢先激动导致 PR 缩短与 Delta 波。",
+      "image_url": "./images/22.jpg",
+      "annotation_sop": {
+        "qrs_specs": "QRS_on 必须点在 Delta 波斜坡的起跳位置。",
+        "six_point_strategy": "PR 测量必须从 P_on 到 Delta 波起始点。"
+      },
+      "measurement_benchmarks": {
+        "PR_interval": "< 120ms",
+        "Delta_wave": "Present (起始部粗钝)"
+      },
+      "decision_logic": "PR短 + Delta波 + QRS宽 = 标注 WPW",
+      "expert_summaries": {
+        "local": "分 A/B 型初步定位。强调诱发顺向型折返心速的风险。",
+        "intl": "警惕 WPW 伴房颤（FBI：快、宽、不齐）。禁用钙拮抗剂。",
+        "confusion": "LBBB、假性心梗 Q 波"
+      },
+      "一句话机制解释": "房室旁路（Kent束）传导极快，避开房室结延迟提前除极心室。",
+      "最易混淆对象": [
+        "束支传导阻滞",
+        "假性心肌梗死 (Delta波似Q波)"
+      ]
+    },
+    {
+      "id": 23,
+      "concept_name": "Left Anterior Fascicular Block",
+      "中文名": "左前分支传导阻滞",
+      "category": "传导",
+      "scp_code": "LAFB",
+      "aha_code": "101",
+      "一句话定义": "显著电轴左偏，下壁导联呈深 rS 型。",
+      "image_url": "./images/23.jpg",
+      "annotation_sop": {
+        "qrs_specs": "标注肢体导联 I、II、III 的波峰高度，计算轴向偏角。"
+      },
+      "measurement_benchmarks": {
+        "Axis": "-45° to -90°",
+        "Pattern": "rS in II, III, aVF"
+      },
+      "decision_logic": "显著左偏轴 + II/III 深 S 波 = 标注 LAFB",
+      "expert_summaries": {
+        "local": "国内认为此图形较常见。注意排除 LVH 引起的左偏。",
+        "intl": "诊断标准：I、aVL 呈 qR 型；II、III、aVF 呈 rS 型。",
+        "confusion": "下壁心梗、左室肥厚"
+      },
+      "一句话机制解释": "左束支前分支受损，激动经后分支向左上方向传导。",
+      "最易混淆对象": [
+        "下壁心肌梗死",
+        "左室肥厚"
+      ]
+    },
+    {
+      "id": 24,
+      "concept_name": "Hyperkalemia",
+      "中文名": "高钾血症",
+      "category": "mimic",
+      "scp_code": "EL",
+      "aha_code": "None",
+      "一句话定义": "血钾过高导致的心肌抑制，呈高尖窄基底 T 波。",
+      "image_url": "./images/24.jpg",
+      "annotation_sop": {
+        "t_logic": "标注重点。T_on 到 T_off 间距应显著缩窄，呈现帐篷样特征。"
+      },
+      "measurement_benchmarks": {
+        "T_wave": "Tall, peaked, narrow base",
+        "P_wave": "Flattened or absent"
+      },
+      "decision_logic": "帐篷样 T 波 + P 波减低 = 标注高钾图形",
+      "expert_summaries": {
+        "local": "急诊生命预警。‘见 T 补钙’是关键。",
+        "intl": "被称为‘心电图变色龙’。宽 QRS 待查时必排查此项。",
+        "confusion": "超急性期心梗、束支阻滞"
+      },
+      "一句话机制解释": "血钾过高降低膜电位差，抑制心肌传导并加速复极。",
+      "最易混淆对象": [
+        "超急性期心梗 (T波高尖鉴别)",
+        "束支阻滞"
+      ]
+    },
+    {
+      "id": 25,
+      "concept_name": "Acute Pericarditis",
+      "中文名": "急性心包炎",
+      "category": "mimic",
+      "scp_code": "None",
+      "aha_code": "None",
+      "一句话定义": "广泛 ST 凹面向上抬高及特征性 PR 段下移。",
+      "image_url": "./images/25.jpg",
+      "annotation_sop": {
+        "p_axis": "灵魂点。需精准标注 P_off 到 QRS_on 的 PR 段下移位移量。"
+      },
+      "measurement_benchmarks": {
+        "ST_elevation": "Concave in most leads",
+        "PR_segment": "Depressed (except aVR)"
+      },
+      "decision_logic": "广泛抬高 + PR 段下移 = 标注心包炎",
+      "expert_summaries": {
+        "local": "强调‘广泛性’。不按冠脉血管分布规律抬高。",
+        "intl": "强调识别 Spodick's Sign（TP 段下斜）。",
+        "confusion": "急性 STEMI、良性早复极"
+      },
+      "一句话机制解释": "心包脏层受累引起大面积浅层心外膜下心肌损伤。",
+      "最易混淆对象": [
+        "急性 STEMI",
+        "良性早期复极"
+      ]
+    },
+    {
+      "id": 26,
+      "concept_name": "Brugada Syndrome",
+      "中文名": "Brugada 综合征",
+      "category": "mimic",
+      "scp_code": "WPW",
+      "aha_code": "None",
+      "一句话定义": "V1-V2 穹窿样 ST 抬高，易致青壮年夜间猝死。",
+      "image_url": "./images/26.jpg",
+      "annotation_sop": {
+        "qrs_specs": "QRS_off 标在抬高穹窿的最顶端起始处。"
+      },
+      "measurement_benchmarks": {
+        "V1_ST": "Coved type ≥ 2mm",
+        "T_wave": "Negative in V1"
+      },
+      "decision_logic": "V1 穹窿样抬高 + 倒置 T = 标注 Brugada Type 1",
+      "expert_summaries": {
+        "local": "关联‘夜间猝死综合征’。强调询问家族史。",
+        "intl": "区分 Type 1（诊断级）与 Type 2（提示级）。",
+        "confusion": "RBBB、前间壁心梗"
+      },
+      "一句话机制解释": "心肌钠通道基因突变导致右室外膜复极显著提前。",
+      "最易混淆对象": [
+        "右束支阻滞",
+        "急性前间壁心梗"
+      ]
+    },
+    {
+      "id": 27,
+      "concept_name": "Benign Early Repolarization",
+      "中文名": "良性早期复极",
+      "category": "mimic",
+      "scp_code": "None",
+      "aha_code": "None",
+      "一句话定义": "正常变异，表现为广泛 ST 凹面抬高伴 J 点切迹。",
+      "image_url": "./images/27.jpg",
+      "annotation_sop": {
+        "qrs_specs": "核心标注。QRS_off 处的‘J波’或‘鱼钩切迹’必须点准。"
+      },
+      "measurement_benchmarks": {
+        "J_point": "Notching (鱼钩征)",
+        "ST_segment": "Stable elevation"
+      },
+      "decision_logic": "J点切迹 + 稳定抬高 + 无临床症状 = 标注早复极",
+      "expert_summaries": {
+        "local": "多见于健康青年、运动员。属于生理性心电图。",
+        "intl": "强调 V4 导联典型的鱼钩切迹。ST/T 比值有助于鉴别。",
+        "confusion": "急性心包炎、STEMI"
+      },
+      "一句话机制解释": "心室局部心肌提前开始复极（通常与高迷走张力有关）。",
+      "最易混淆对象": [
+        "急性心包炎",
+        "超急性期 STEMI"
+      ]
+    },
+    {
+      "id": 28,
+      "concept_name": "Right Atrial Enlargement",
+      "中文名": "右心房增大",
+      "category": "肥厚",
+      "scp_code": "RAO/RAE",
+      "aha_code": "141",
+      "一句话定义": "心房初段除极向量增强，表现为高尖 P 波。",
+      "image_url": "./images/28.jpg",
+      "annotation_sop": {
+        "p_axis": "标注 P 峰高度。起止点（P_on/off）宽度通常正常。"
+      },
+      "measurement_benchmarks": {
+        "P_amplitude": "≥ 0.25 mV (Lead II)",
+        "P_duration": "< 120 ms"
+      },
+      "decision_logic": "II/III/aVF P 波高尖 = 标注 RAE (肺型P)",
+      "expert_summaries": {
+        "local": "国内称肺型 P 波。常提示 COPD 或肺动脉高压。",
+        "intl": "反映右房压力负荷过重，常见于三尖瓣病变。",
+        "confusion": "低钾血症、窦速"
+      },
+      "一句话机制解释": "右房增大导致初始除极向量增强且垂直分量增加。",
+      "最易混淆对象": [
+        "低钾血症引起的 P 波变高",
+        "窦性心动过速"
+      ]
+    },
+    {
+      "id": 29,
+      "concept_name": "Bifascicular Block",
+      "中文名": "双分支阻滞",
+      "category": "传导",
+      "scp_code": "None",
+      "aha_code": "None",
+      "一句话定义": "RBBB 与左前（或后）分支阻滞同时存在。",
+      "image_url": "./images/29.jpg",
+      "annotation_sop": {
+        "qrs_specs": "同时标注 V1 的 RSR' 特征及肢体导联的电轴偏转。"
+      },
+      "measurement_benchmarks": {
+        "QRS": "≥ 120ms",
+        "Pattern": "RBBB + LAFB (common)"
+      },
+      "decision_logic": "符合 RBBB 形态 + 显著左偏轴 = 标注双分支阻滞",
+      "expert_summaries": {
+        "local": "视为高度传导阻滞的前兆。需关注晕厥史。",
+        "intl": "新发双分支阻滞常提示传导系统受损严重，需评估起搏需求。",
+        "confusion": "LBBB、非特异性室内传导阻滞"
+      },
+      "一句话机制解释": "传导系统三分支中有两支同时发生功能中断。",
+      "最易混淆对象": [
+        "左束支阻滞",
+        "不完全性三分支阻滞"
+      ]
+    },
+    {
+      "id": 30,
+      "concept_name": "Sinus Bradycardia",
+      "中文名": "窦性心动过缓",
+      "category": "节律",
+      "scp_code": "SBRAD",
+      "aha_code": "22",
+      "一句话定义": "起源于窦房结的心律，但频率 < 60 bpm。",
+      "image_url": "./images/30.jpg",
+      "annotation_sop": {
+        "six_point_strategy": "常规 6 点标注。重点校对长 RR 间期的测量。"
+      },
+      "measurement_benchmarks": {
+        "Heart_rate": "< 60 bpm",
+        "P_wave": "Sinus origin (Normal axis)"
+      },
+      "decision_logic": "窦性 P + 心率慢 = 标注窦缓",
+      "expert_summaries": {
+        "local": "常见于运动员、老年人。若伴黑蒙、晕厥则有临床意义。",
+        "intl": "区分生理性 vs 病理性。需排查药物、甲减等因素。",
+        "confusion": "二度房室阻滞 (2:1)、窦性停搏"
+      },
+      "一句话机制解释": "窦房结自律性生理性或病理性下降。",
+      "最易混淆对象": [
+        "二度 2:1 房室阻滞",
+        "窦性停搏"
+      ]
+    },
+    {
+      "id": 31,
+      "concept_name": "Normal Sinus Rhythm",
+      "中文名": "正常窦性心律",
+      "category": "节律",
+      "scp_code": "NORM",
+      "aha_code": "1",
+      "一句话定义": "由窦房结发出的节律匀齐的心律，是所有 ECG 特征工程的 Baseline 黄金基准。",
+      "关键判读点": [
+        "【极性】P 波在 I、II、aVF 直立，aVR 必须倒置。",
+        "【时限】P 波宽度 < 120ms，PR 间期 120-200ms。",
+        "【形态】每个 P 波后紧跟形态一致的 QRS 波群，RR 绝对规整。"
+      ],
+      "image_url": "./images/31.jpg",
+      "image_note": "校对 P-QRS-T 六点完整性；P 波极性检测是区分窦性与非窦性的金标准。",
+      "annotation_sop": {
+        "p_axis": "必须标注。P_on 标记在基线平稳后的第一个正向偏转点；P_off 标记在回归等电位线处。",
+        "qrs_specs": "窄波群。QRS_on 寻找 R 升支或 Q 降支起始；QRS_off 标在回归等电位线的转折点（J 点）。",
+        "six_point_strategy": "六点完整：P始/末、QRS始/末、T始/末必须全部精准定位，误差建议控制在 4ms 内。"
+      },
+      "measurement_benchmarks": {
+        "Heart_rate": "60 - 100 bpm",
+        "PR_interval": "120 - 200 ms",
+        "QRS_duration": "70 - 110 ms",
+        "QTc_interval": "≤ 440ms (男) / 460ms (女)"
+      },
+      "decision_logic": "窦性 P 极性 + 规整 RR 序列 + 正常测量参数 = 标注 NORM",
+      "expert_summaries": {
+        "local": "国内教材强调‘ Baseline ’意识。对于算法标注，这是所有异常分类的排除法根基。",
+        "intl": "强调 P 波电轴在 0° 至 +90° 之间。注意呼吸性窦性心律不齐在健康人群中的普遍性。",
+        "confusion": "房性自主心律（P波极性异常）、交界性逸搏心律（无P或逆传P）"
+      },
+      "一句话机制解释": "窦房结正常控制心脏，按标准希浦系统路径顺序传导。",
+      "最易混淆对象": [
+        "房性逸搏心律",
+        "交界性心律"
+      ]
+    },
+    {
+      "id": 32,
+      "concept_name": "Sinus Tachycardia",
+      "中文名": "窦性心动过速",
+      "category": "节律",
+      "scp_code": "STACH",
+      "aha_code": "21",
+      "一句话定义": "窦房结起源且频率超过 100 bpm，伴有随心率加快而出现的 P-T 融合倾向。",
+      "关键判读点": [
+        "【频率】心率 > 100 bpm（成人）。",
+        "【形态】P 波极性正常，但在极高速下 P 波前部可能与前一搏 T 波融合。",
+        "【演变】具有逐渐加速和减速的生理过程。"
+      ],
+      "image_url": "./images/32.jpg",
+      "image_note": "关注 TP 段缩短甚至消失；标注 P_on 时需识别前一搏 T 波回归基线的切点。",
+      "annotation_sop": {
+        "p_axis": "标注难点。心率过快时 P 波会紧贴 T 波末端。P_on 标注需在斜率明显改变处。",
+        "qrs_specs": "窄波群。标注逻辑同 NORM，但需注意高频率导致的基线不稳。",
+        "six_point_strategy": "若 P 与 T 完全融合（TP段消失），P_on 点应标记在融合波形的上升转折处。"
+      },
+      "measurement_benchmarks": {
+        "Heart_rate": "> 100 bpm",
+        "PR_interval": "随心率加快可生理性缩短，通常 110-180ms"
+      },
+      "decision_logic": "窦性 P 极性 + 频率 > 100 bpm = 标注 STACH",
+      "expert_summaries": {
+        "local": "寻找生理（运动、焦虑）或病理（发热、甲亢）诱因。",
+        "intl": "强调动态演变过程，以此与突发突止、节律恒定的折返性心动过速鉴别。",
+        "confusion": "阵发性室上速 (SVT)、房扑 2:1 传导"
+      },
+      "一句话机制解释": "交感神经兴奋或代谢需求增加，导致窦房结自律性放电频率升高。",
+      "最易混淆对象": [
+        "阵发性室上速 (SVT)",
+        "房扑 2:1 传导 (心室率150时)"
+      ]
+    },
+    {
+      "id": 33,
+      "concept_name": "Sinus Arrhythmia",
+      "中文名": "窦性心律不齐",
+      "category": "节律",
+      "scp_code": "SARRH",
+      "aha_code": "23",
+      "一句话定义": "窦房结起源但 PP 间期互差 > 120ms，通常与呼吸周期引起迷走张力变化相关。",
+      "关键判读点": [
+        "【规律】相邻 PP 间期差异 > 120ms，呈现周期性长短变化。",
+        "【形态】P 波形态、极性完全一致，且 P-QRS 关系固定。",
+        "【呼吸关联】吸气加速，呼气减慢。"
+      ],
+      "image_url": "./images/33.jpg",
+      "image_note": "重点监控 RR 间期的测量波动，形态标注需确认 P 波的统一性。",
+      "annotation_sop": {
+        "p_axis": "形态标注。必须确认所有导联 P 波形态恒定，以排除多源房速。",
+        "qrs_specs": "常规标注。RR 的剧烈变动可能干扰 QTc 的计算稳定性。",
+        "six_point_strategy": "重点标注长 RR 与短 RR 样本，用于算法变异度计算。"
+      },
+      "measurement_benchmarks": {
+        "PP_variation": "> 120ms (或大于 10% 基准)",
+        "P_morphology": "Constant & Sinus"
+      },
+      "decision_logic": "窦性 P + RR 间期周期性显著不齐 = 标注 SARRH",
+      "expert_summaries": {
+        "local": "国内教材强调青少年常见，无需治疗。标注需防范与房颤误标。",
+        "intl": "算法识别难点：区分呼吸引起‘周期性不齐’与房颤‘绝对随机不齐’。",
+        "confusion": "心房颤动 (AFIB)、二度 I 型窦房传导阻滞"
+      },
+      "一句话机制解释": "呼吸周期引起的迷走神经张力波动，改变了窦房结的放电节律。",
+      "最易混淆对象": [
+        "心房颤动 (AFIB)",
+        "二度窦房传导阻滞"
+      ]
+    },
+    {
+      "id": 34,
+      "concept_name": "Incomplete RBBB",
+      "中文名": "不完全性右束支阻滞",
+      "category": "传导",
+      "scp_code": "IRBBB",
+      "aha_code": "105",
+      "一句话定义": "具备右束支阻滞的特征形态（V1 rsR'），但 QRS 时限在 100-120ms 之间。",
+      "关键判读点": [
+        "【形态】V1 导联呈 rsR' 或 rSr' 型（兔耳征）。",
+        "【时限】QRS 宽度未达到 120ms，通常在 100-115ms。",
+        "【侧壁】I、V6 导联可见轻微或浅宽的 S 波。"
+      ],
+      "image_url": "./images/34.jpg",
+      "image_note": "寻找 V1 导联的 R' 切迹，标注 QRS_off 需包含该终末偏转段。",
+      "annotation_sop": {
+        "qrs_specs": "标注难点。必须精准捕捉 R' 波峰及其回归基线的点。QRS_off 需覆盖整个 R' 宽度。",
+        "six_point_strategy": "精准的时限测量是区分 Complete 与 Incomplete 的唯一依据。"
+      },
+      "measurement_benchmarks": {
+        "QRS_duration": "100 - 120 ms",
+        "V1_Pattern": "rsR' or rSr'"
+      },
+      "decision_logic": "V1 兔耳征 + QRS < 120ms = 标注 IRBBB",
+      "expert_summaries": {
+        "local": "国内常视为正常变异。算法需防止将此波形误报为 Brugada 综合征。",
+        "intl": "强调侧壁导联 S 波的时限（>40ms 或增宽）作为诊断辅助。",
+        "confusion": "Brugada Type 2、生理性 V1 切迹"
+      },
+      "一句话机制解释": "右束支传导功能部分受损或延缓，但激动最终仍能下传。",
+      "最易混淆对象": [
+        "Brugada 综合征",
+        "右心室肥厚 (RVH)"
+      ]
+    },
+    {
+      "id": 35,
+      "concept_name": "Incomplete LBBB",
+      "中文名": "不完全性左束支阻滞",
+      "category": "传导",
+      "scp_code": "ILBBB",
+      "aha_code": "None",
+      "一句话定义": "左室除极延缓，表现为侧壁导联起始 q 波消失及 R 波升支粗钝，QRS 时限 100-120ms。",
+      "关键判读点": [
+        "【形态】I, aVL, V5, V6 导联正常小 q 波消失。",
+        "【特征】R 波升支可见明显的粗钝（Slurring）或切迹点。",
+        "【参数】QRS 时限在 100-120ms 之间。"
+      ],
+      "image_url": "./images/35.jpg",
+      "image_note": "标注 R 波升支的坡度改变点，这是算法提取特征的关键。",
+      "annotation_sop": {
+        "qrs_specs": "确认 I, V5, V6 无起始负向 q 波。QRS_on 标注在 R 波直冲起点。",
+        "six_point_strategy": "重点寻找并标记 R 波升支 1/2 处的 Slurring (粗钝) 位置。"
+      },
+      "measurement_benchmarks": {
+        "QRS_duration": "100 - 120 ms",
+        "Septal_q": "Absent in Lateral Leads"
+      },
+      "decision_logic": "侧壁 q 消失 + R 升支粗钝 + QRS < 120ms = 标注 ILBBB",
+      "expert_summaries": {
+        "local": "国内教材强调间隔向量消失。常预示早期左室器质性受损。",
+        "intl": "强调 R 波达峰时间（IDT）在 V5/V6 显著延长（> 60ms）。",
+        "confusion": "左室肥厚 (LVH)、非特异性室内传导延迟"
+      },
+      "一句话机制解释": "左束支主干传导性能下降，导致左室除极起始向量发生微小偏移。",
+      "最易混淆对象": [
+        "左心室肥厚 (LVH)",
+        "非特异性室内传导延迟"
+      ]
+    },
+    {
+      "id": 36,
+      "concept_name": "Left Posterior Fascicular Block",
+      "中文名": "左后分支传导阻滞",
+      "category": "传导",
+      "scp_code": "LPFB",
+      "aha_code": "102",
+      "一句话定义": "激动经左束支前分支下传，导致左室除极先左上后右下，电轴显著右偏。",
+      "关键判读点": [
+        "【轴向】显著电轴右偏 (> +120°)。",
+        "【形态】I, aVL 呈 rS 型；II, III, aVF 呈 qR 型。",
+        "【排除】必须严格排除 RVH、肺栓塞及极瘦体型导致的生理性右偏。"
+      ],
+      "image_url": "./images/36.jpg",
+      "image_note": "校对肢体导联 I、II、III 的 QRS 振幅比，确认向量指向右下方。",
+      "annotation_sop": {
+        "qrs_specs": "精准标注 I 导联 S 波深度点及 III 导联 R 峰高度点。",
+        "six_point_strategy": "轴向计算强依赖肢体导联的 QRS 波峰波谷标注。"
+      },
+      "measurement_benchmarks": {
+        "Mean_Axis": "> +120°",
+        "Lead_I": "rS pattern",
+        "Lead_III": "qR pattern"
+      },
+      "decision_logic": "显著右偏轴 + 排除 RVH/PE/EMI = 标注 LPFB",
+      "expert_summaries": {
+        "local": "罕见。临床上若出现此图形，多提示严重的双分支或三分支阻滞。",
+        "intl": "强调 qR 模式中的 q 波必须极小（<40ms），否则应考虑下壁梗死。",
+        "confusion": "右心室肥厚 (RVH)、侧壁梗死 (QS型导致假性右偏)"
+      },
+      "一句话机制解释": "左束支后分支传导中断，左室除极由前向后、由左向右偏移。",
+      "最易混淆对象": [
+        "右心室肥厚 (RVH)",
+        "侧壁心肌梗死 (QS型导致假性右偏)"
+      ]
+    },
+    {
+      "id": 37,
+      "concept_name": "IVCD",
+      "中文名": "非特异性室内传导延迟",
+      "category": "传导",
+      "scp_code": "IVCD",
+      "aha_code": "107",
+      "一句话定义": "QRS 增宽但形态特征无法归类为任何典型的左右束支阻滞标准。",
+      "关键判读点": [
+        "【参数】QRS 时限 > 120 ms。",
+        "【形态】形态杂乱、多处切迹，但无典型兔耳（RBBB）或峡谷（LBBB）特征。",
+        "【电轴】电轴通常异常。"
+      ],
+      "image_url": "./images/37.jpg",
+      "image_note": "标注宽大畸形的 QRS 总宽度，记录切迹出现的次数和位置。",
+      "annotation_sop": {
+        "qrs_specs": "标注 QRS_on/off。时限测量是核心动作，描述标记为‘非典型畸形’。",
+        "six_point_strategy": "重点标记 QRS 波群中部的多处坡度改变点。"
+      },
+      "measurement_benchmarks": {
+        "QRS_duration": "> 120 ms",
+        "Morphology": "Bizarre, non-standard"
+      },
+      "decision_logic": "QRS 宽 > 120ms + 排除 RBBB/LBBB/WPW = 标注 IVCD",
+      "expert_summaries": {
+        "local": "算法识别的‘长尾’类别。多见于弥漫性心肌受损、心衰或药物中毒。",
+        "intl": "强调这种不确定的宽 QRS 常关联高钾或高浓度抗心律失常药（I类）。",
+        "confusion": "左束支阻滞、高钾血症图形"
+      },
+      "一句话机制解释": "心室内传导系统广泛性弥漫受损，除极速度整体减慢。",
+      "最易混淆对象": [
+        "左束支传导阻滞 (LBBB)",
+        "高钾血症图形"
+      ]
+    },
+    {
+      "id": 38,
+      "concept_name": "Inferior Myocardial Infarction",
+      "中文名": "下壁心肌梗死",
+      "category": "缺血梗死",
+      "scp_code": "IMI",
+      "aha_code": "161",
+      "一句话定义": "左室下壁心肌受损，主要在 II、III、aVF 导联呈现 ST 抬高或异常 Q 波。",
+      "关键判读点": [
+        "【定位】II、III、aVF 导联 ST 段抬高或出现病理性 Q 波。",
+        "【镜像】常在 I、aVL 导联观察到 ST 段镜像压低。",
+        "【血管】通常代表右冠状动脉 (RCA) 闭塞。"
+      ],
+      "image_url": "./images/38.jpg",
+      "image_note": "标注 II, III, aVF 的 J 点及其抬高幅度；观察 aVL 导联的压低作为佐证。",
+      "annotation_sop": {
+        "st_t_logic": "重点标注下壁导联 J 点。标注 III > II 的抬高梯度特征。",
+        "six_point_strategy": "QRS_off：寻找斜率突变点作为测量基准。"
+      },
+      "measurement_benchmarks": {
+        "Leads": "II, III, aVF",
+        "Q_wave_width": "> 40ms in Inferior Leads"
+      },
+      "decision_logic": "下壁导联 STE + aVL 镜像压低 = 标注 IMI",
+      "expert_summaries": {
+        "local": "国内建议常规加做 V3R-V5R（右室）和 V7-V9（后壁）排查同步梗死。",
+        "intl": "强调 aVL 的 ST 压低是诊断早期下壁梗死最敏感、最早期的指标。",
+        "confusion": "急性心包炎（广泛抬高且无镜像）、早期复极变异"
+      },
+      "一句话机制解释": "左前降支(LAD)间隔支急性闭塞，导致室间隔前部电活动丧失。",
+      "最易混淆对象": [
+        "左束支阻滞导致的 V1-V2 QS型",
+        "左室肥厚 (LVH)"
+      ]
+    },
+    {
+      "id": 39,
+      "concept_name": "Anteroseptal MI",
+      "中文名": "前间壁心肌梗死",
+      "category": "缺血梗死",
+      "scp_code": "ASMI",
+      "aha_code": "165",
+      "一句话定义": "室间隔前部受损，特征性改变见于 V1-V2 导联，常表现为起始 R 波消失。",
+      "关键判读点": [
+        "【定位】V1-V2 导联出现 ST 抬高、T 波高耸或 QS 型。",
+        "【演变】典型表现为胸导联 R 波递增消失（PRWP）。",
+        "【血管】多由 LAD 的间隔支闭塞引起。"
+      ],
+      "image_url": "./images/39.jpg",
+      "image_note": "标注 V1、V2 的 QS 型（无 R 波）；精确标注 J 点在等电位线上的抬升量。",
+      "annotation_sop": {
+        "qrs_specs": "将 V1, V2 标记为 QS 模式。QRS_on 为第一个向下尖峰起始。",
+        "six_point_strategy": "标注前胸导联 R 波幅度递增的消失点。"
+      },
+      "measurement_benchmarks": {
+        "Leads": "V1, V2 (sometimes V3)",
+        "QRS_type": "QS or qrS in V1-V2"
+      },
+      "decision_logic": "V1-V2 梗死波形 + ST 动态演变 = 标注 ASMI",
+      "expert_summaries": {
+        "local": "防止将正常的‘顺钟向转位’误标为 ASMI。需动态对比。",
+        "intl": "强调识别 Poor R wave progression (PRWP) 并在诊断中体现严重程度。",
+        "confusion": "左束支阻滞 (LBBB)、右室肥厚 (RVH)"
+      },
+      "一句话机制解释": "回旋支或对角支闭塞，导致左心室外侧壁心肌坏死或损伤。",
+      "最易混淆对象": [
+        "左室劳损 (Strain)",
+        "正常变异 (aVL 孤立性 T 倒置)"
+      ]
+    },
+    {
+      "id": 40,
+      "concept_name": "Lateral MI",
+      "中文名": "侧壁心肌梗死",
+      "category": "缺血梗死",
+      "scp_code": "LMI",
+      "aha_code": "163",
+      "一句话定义": "左室侧壁受损，主要累及 I、aVL、V5、V6 导联。",
+      "关键判读点": [
+        "【定位】I、aVL（高侧壁）或 V5、V6（侧壁）出现 ST 抬高。",
+        "【镜像】常伴随下壁导联（II, III, aVF）的镜像压低。",
+        "【血管】通常代表回旋支 (LCx) 或 LAD 对角支闭塞。"
+      ],
+      "image_url": "./images/40.jpg",
+      "image_note": "标注 aVL 和 V6 导联的 STE；校对下壁导联的 ST 水平型压低深度。",
+      "annotation_sop": {
+        "st_t_logic": "重点标记 aVL 的 J 点偏移。测量 V5-V6 的复极曲线变化。"
+      },
+      "measurement_benchmarks": {
+        "Leads": "I, aVL, V5, V6",
+        "Reciprocal": "ST depression in Inferior Leads"
+      },
+      "decision_logic": "侧壁导联 STE + 镜像压低 = 标注 LMI",
+      "expert_summaries": {
+        "local": "国内临床将 I、aVL 单独称为‘高侧壁心梗’。",
+        "intl": "强调 aVL 导联微小抬高在多导联分析中的定位锚点价值。",
+        "confusion": "左室劳损 (Strain Pattern)、急性心包炎"
+      },
+      "一句话机制解释": "右冠状动脉(RCA)闭塞，导致心脏下壁受损及损伤电流产生。",
+      "最易混淆对象": [
+        "急性心包炎",
+        "早期复极变异"
+      ]
+    },
+    {
+      "id": 41,
+      "concept_name": "Anterolateral MI",
+      "中文名": "前侧壁心肌梗死",
+      "category": "缺血梗死",
+      "scp_code": "AMI",
+      "aha_code": "None",
+      "一句话定义": "大面积梗死，同时累及前壁与侧壁区域（V3-V6, I, aVL）。",
+      "关键判读点": [
+        "【特征】广泛导联 ST 抬高：V3-V6 + I + aVL。",
+        "【严重性】通常暗示前降支 (LAD) 近端或左主干急性闭塞。",
+        "【镜像】下壁导联出现显著镜像压低。"
+      ],
+      "image_url": "./images/41.jpg",
+      "image_note": "需在广泛导联组内寻找最大抬高点进行标注，校对镜像压低同步性。",
+      "annotation_sop": {
+        "six_point_strategy": "全导联同步标注。测量 J+60ms 幅度。确认 QS 波范围。"
+      },
+      "measurement_benchmarks": {
+        "STE_Distribution": "V3-V6 + I + aVL",
+        "Magnitude": "Often > 2mm in precordial leads"
+      },
+      "decision_logic": "前壁 + 侧壁联合 STE + 显著镜像 = 标注广泛前侧壁 MI",
+      "expert_summaries": {
+        "local": "算法需识别为‘大面积’。极易合并急性泵衰竭。",
+        "intl": "强调这是识别‘左主干闭塞’高危模式的关键步阶。",
+        "confusion": "急性心包炎、广泛早期复极"
+      },
+      "一句话机制解释": "LAD 近端或主干大面积闭塞，损伤电流横跨整个前侧壁。",
+      "最易混淆对象": [
+        "急性心包炎 (广泛抬高)",
+        "早期复极综合征"
+      ]
+    },
+    {
+      "id": 42,
+      "concept_name": "Ventricular Aneurysm",
+      "中文名": "室壁瘤",
+      "category": "缺血梗死",
+      "scp_code": "ANEUR",
+      "aha_code": "227",
+      "一句话定义": "既往大面积梗死后形成的矛盾运动区，表现为持续超过 2 周的 ST 段抬高。",
+      "关键判读点": [
+        "【时限】既往梗死区 ST 抬高持续 > 2 周且无动态改变。",
+        "【形态】QRS 呈显著深 QS 或 Q 波，T 波通常低平或倒置（非高尖）。"
+      ],
+      "image_url": "./images/42.jpg",
+      "image_note": "核心标注：QRS 呈深 QS 模式。校对 T 波振幅与 QRS 振幅的比例。",
+      "annotation_sop": {
+        "qrs_specs": "精准标注 QS 波起止。这是陈旧性损伤的物理证据。",
+        "six_point_strategy": "标记抬高 ST 段。确认 T 波形态非超急性期特征。"
+      },
+      "measurement_benchmarks": {
+        "Persistence": "Permanent post-MI elevation",
+        "T_QRS_ratio": "< 0.36 (诊断室壁瘤的重要指标)"
+      },
+      "decision_logic": "陈旧 Q 波 + 持续 STE + 无动态演变 + T波低平 = 标注 ANEUR",
+      "expert_summaries": {
+        "local": "防止模型将‘室壁瘤’误报为‘急性再梗死’。",
+        "intl": "强调 T/QRS 比例算法是自动化判读中的核心鉴别手段。",
+        "confusion": "急性再灌注性梗死、Brugada 综合征"
+      },
+      "一句话机制解释": "心梗后坏死心肌被纤维组织替代，受压膨出产生的持续性跨壁电流。",
+      "最易混淆对象": [
+        "急性再梗死 (STE动态演变)",
+        "Brugada 综合征"
+      ]
+    },
+    {
+      "id": 43,
+      "concept_name": "ST Depression",
+      "中文名": "非特异性 ST 段压低",
+      "category": "缺血梗死",
+      "scp_code": "STD_",
+      "aha_code": "502",
+      "一句话定义": "ST 段偏离等电位线下移，代表心内膜下缺血或电解质、药物干扰。",
+      "关键判读点": [
+        "【参数】偏离 ≥ 0.05 mV。",
+        "【形态】水平型、下斜型（缺血显著）或上斜型。"
+      ],
+      "image_url": "./images/43.jpg",
+      "image_note": "标注 J 点后 60ms 的位移量；重点记录水平型压低的导联分布。",
+      "annotation_sop": {
+        "qrs_specs": "QRS_off (J点) 标记在斜率突变回到水平线的转折处下方。",
+        "st_t_logic": "核心标注：测量 J+60ms 处的下移垂直距离。"
+      },
+      "measurement_benchmarks": {
+        "Magnitude": "≥ 0.05 mV (0.5 small box)",
+        "Morphology": "Horizontal or Downsloping"
+      },
+      "decision_logic": "ST 段显著下移 ≥ 0.05mV = 标注 STD_",
+      "expert_summaries": {
+        "local": "临床诊断 NSTE-ACS 的重要依据。标注团队需警惕伪差干扰。",
+        "intl": "强调持续时间：下移需持续 80ms 以上才有临床缺血意义。",
+        "confusion": "洋地黄效应 (鱼钩样)、镜像压低 (STEMI)"
+      },
+      "一句话机制解释": "心内膜下心肌缺血导致复极期电位梯度改变，向量指向心内膜。",
+      "最易混淆对象": [
+        "数字洋地黄效应",
+        "镜像压低 (对侧 STEMI)"
+      ]
+    },
+    {
+      "id": 44,
+      "concept_name": "ST Elevation",
+      "中文名": "非特异性 ST 段抬高",
+      "category": "mimic",
+      "scp_code": "STE_",
+      "aha_code": "501",
+      "一句话定义": "J 点及 ST 段抬高但未达到缺血性心梗的标准定位或演变模式。",
+      "关键判读点": [
+        "【参数】偏离 > 0.1 mV。",
+        "【排除】无动态演变，无解剖对应的镜像压低。"
+      ],
+      "image_url": "./images/44.jpg",
+      "image_note": "标注抬高点位置。观察其是否呈现广泛、凹面向上且稳定的形态。",
+      "annotation_sop": {
+        "st_t_logic": "标注凹面向上抬高段的起始点。记录其与 TP 段的位移关系。"
+      },
+      "measurement_benchmarks": {
+        "Magnitude": "> 0.1 mV",
+        "Context": "Non-localized distribution"
+      },
+      "decision_logic": "ST 段抬高 + 排除 MI 模式 = 标注 STE_",
+      "expert_summaries": {
+        "local": "算法识别的‘非梗死类’抬高。标注员需参考既往对比图。",
+        "intl": "常关联良性早期复极。强调识别‘J 点抬高’这一核心特征。",
+        "confusion": "急性心肌梗死、心包炎"
+      },
+      "一句话机制解释": "多种非缺血因素导致心肌复极初期电平衡打破，ST段整体抬升。",
+      "最易混淆对象": [
+        "急性心肌梗死",
+        "急性心包炎"
+      ]
+    },
+    {
+      "id": 45,
+      "concept_name": "Inverted T-waves",
+      "中文名": "T 波倒置",
+      "category": "mimic",
+      "scp_code": "INVT",
+      "aha_code": "367",
+      "一句话定义": "原本直立的 T 波变为向下翻转，反映心室复极顺序发生重大偏移。",
+      "关键判读点": [
+        "【一眼定性】在 I、II、V2-V6 导联出现倒置 T 波。",
+        "【形态】对称倒置（缺血）或不对称倒置（劳损）。",
+        "【深度】振幅通常 > 0.1 mV。"
+      ],
+      "image_url": "./images/45.jpg",
+      "image_note": "标记 T 波负向最深点。校对倒置 T 波的双支对称性。",
+      "annotation_sop": {
+        "t_logic": "必须标记 T 波波谷（T_peak_inv）。标注 P_off 到 T_off 的复极总时长。",
+        "six_point_strategy": "T始/末：精准捕捉波形翻转的边界。"
+      },
+      "measurement_benchmarks": {
+        "Depth": "> 0.1 mV",
+        "Polarity": "Negative in leads other than aVR/V1"
+      },
+      "decision_logic": "常规直立导联 T 波反转 = 标注 INVT",
+      "expert_summaries": {
+        "local": "国内常用‘冠状 T ’形容极度对称的深倒置，高度提示缺血。",
+        "intl": "重点区分原发性倒置与继发性倒置（如束支阻滞导致的 T 倒置）。",
+        "confusion": "脑源性 T 波、继发性 ST-T 改变"
+      },
+      "一句话机制解释": "心肌受损或压力负荷导致心室复极顺序由心内膜向心外膜逆转。",
+      "最易混淆对象": [
+        "脑源性 T 波",
+        "幼稚型 T 波变异"
+      ]
+    },
+    {
+      "id": 46,
+      "concept_name": "Digitalis Effect",
+      "中文名": "洋地黄效应",
+      "category": "mimic",
+      "scp_code": "DIG",
+      "aha_code": "205",
+      "一句话定义": "服用洋地黄类药物后引起的特异性复极改变，特征为 ST 段“鱼钩样”下移。",
+      "关键判读点": [
+        "【形态】ST 段呈下斜弧形下移，形状酷似鱼钩 (Salvador Dali sag)。",
+        "【T波】T 波倒置、低平或双相，常位于 ST 段终末。",
+        "【参数】QT 间期通常缩短，U 波可能变得明显。"
+      ],
+      "image_url": "./images/46.jpg",
+      "image_note": "观察侧壁导联（V5-V6）典型的弧形下压，注意其起始坡度的平缓性。",
+      "annotation_sop": {
+        "p_axis": "常规标注。洋地黄可减慢房室传导，需监测 PR 间期。",
+        "st_t_logic": "标注难点。标注 ST_on (J点) 后的下沉弧线，J 点本身可能位移不明显，但 ST 段中段下沉最深。",
+        "six_point_strategy": "重点标注 QT 缩短区间；寻找 ST 弧线与 T 波的交接点。"
+      },
+      "measurement_benchmarks": {
+        "ST_Morphology": "Scooped / Sagging appearance",
+        "QT_interval": "Shortened (相对心率缩短)",
+        "J_point": "Depressed but usually upsloping at the end"
+      },
+      "decision_logic": "鱼钩样 ST 段下移 + QT 缩短 + 服药史 = 标注 DIG",
+      "expert_summaries": {
+        "local": "国内口诀“鱼钩样下移”。强调这代表‘药物效应’而非‘药物中毒’（中毒多表现为心律失常）。",
+        "intl": "术语称 Salvador Dali sag。算法需区分其与缺血性水平压低的斜率差异。",
+        "confusion": "心肌缺血 (STD_)、左室肥厚劳损"
+      },
+      "一句话机制解释": "洋地黄药物抑制钠钾泵，缩短动作电位时程并改变复极坡度。",
+      "最易混淆对象": [
+        "心肌缺血压低",
+        "低钾血症"
+      ]
+    },
+    {
+      "id": 47,
+      "concept_name": "Long QT Interval",
+      "中文名": "长 QT 综合征",
+      "category": "mimic",
+      "scp_code": "LNGQT",
+      "aha_code": "148",
+      "一句话定义": "心室复极显著延长，代表心电不稳定性增加，是诱发 TdP 的高危预警。",
+      "关键判读点": [
+        "【一眼定性】QT 间期明显拉长，通常超过 RR 间期的一半。",
+        "【参数】QTc > 440ms (男) 或 460ms (女)；> 500ms 为危急值。",
+        "【形态】T 波可能变得增宽、低平或出现切迹。"
+      ],
+      "image_url": "./images/47.jpg",
+      "image_note": "核心标注 T_off：使用切线法确定 T 波结束位置，避免将 U 波误计入。",
+      "annotation_sop": {
+        "t_logic": "极度重要。必须使用“切线法”（Tangent method）寻找 T 降支最大坡度与基线的交点作为 T_off。",
+        "six_point_strategy": "标注 QRS_on 到 T_off。若出现 T-U 融合，标注在两波之间的波谷处作为 T_off（若无法区分则记录为融合）。"
+      },
+      "measurement_benchmarks": {
+        "QTc_Threshold": "> 440-460 ms",
+        "Formula": "Bazett: QTc = QT / √RR"
+      },
+      "decision_logic": "测算的 QTc 超过性别阈值 = 标注 LNGQT",
+      "expert_summaries": {
+        "local": "临床预警 TdP 的红线指标。标注团队必须严格执行 T_off 的定位准则，防止过度标记。",
+        "intl": "强调药物诱导的长 QT（如抗精神病药、抗生素）。注意 T 波形态变异。",
+        "confusion": "低钙血症 (ST段延长)、低钾血症 (U波融合)"
+      },
+      "一句话机制解释": "心肌离子通道功能障碍，导致钾离子外流受阻，复极显著延缓。",
+      "最易混淆对象": [
+        "低钙血症 (ST段延长)",
+        "T-U 融合波"
+      ]
+    },
+    {
+      "id": 48,
+      "concept_name": "Right Ventricular Hypertrophy",
+      "中文名": "右心室肥厚",
+      "category": "肥厚",
+      "scp_code": "RVH",
+      "aha_code": "143",
+      "一句话定义": "右心室心肌增厚导致 V1 导联向前的除极向量异常增强。",
+      "关键判读点": [
+        "【V1特征】R/S 比例 > 1；R 波高度 > 0.7 mV。",
+        "【电轴】电轴显著右偏 (> +90° 或 +110°)。",
+        "【复极】右胸导联 (V1-V3) 常伴有倒置 T 波。"
+      ],
+      "image_url": "./images/48.jpg",
+      "image_note": "精准标注 V1 的 R 峰与 S 谷；校对肢体导联的波幅以确认右偏轴。",
+      "annotation_sop": {
+        "qrs_specs": "重点标注 V1 导联的 R/S 幅度比。标注 QRS_off 后的 ST 段斜率。",
+        "six_point_strategy": "轴向计算：必须标注肢体导联 I、II、III 的峰值。"
+      },
+      "measurement_benchmarks": {
+        "V1_R_height": "> 0.7 mV",
+        "V1_RS_ratio": "> 1",
+        "Mean_Axis": "> +110°"
+      },
+      "decision_logic": "V1 高 R 波 + 电轴右偏 + 排除 RBBB/MI = 标注 RVH",
+      "expert_summaries": {
+        "local": "常见于肺心病或先心病。算法标注需结合“肺型 P 波”特征。",
+        "intl": "强调 R 波递减顺序：从右向左（V1 -> V6）逐渐降低，与正常情况相反。",
+        "confusion": "右束支阻滞 (RBBB)、后壁心肌梗死 (V1 R波亦高，但T直立)"
+      },
+      "一句话机制解释": "右室心肌增厚导致除极总向量向右前方显著偏移，掩盖左室向量。",
+      "最易混淆对象": [
+        "后壁心肌梗死",
+        "右束支传导阻滞"
+      ]
+    },
+    {
+      "id": 49,
+      "concept_name": "Hypercalcemia",
+      "中文名": "高钙血症",
+      "category": "mimic",
+      "scp_code": "EL",
+      "aha_code": "None",
+      "一句话定义": "血钙升高引起心肌动作电位时程缩短，表现为 QT 间期缩短及 ST 段消失。",
+      "关键判读点": [
+        "【核心】QT 间期显著缩短。",
+        "【ST段】ST 段极短或几乎消失，T 波紧接在 QRS 之后。",
+        "【形态】T 波起始部极其陡峭。"
+      ],
+      "image_url": "./images/49.jpg",
+      "image_note": "算法测试点：标注极短的 ST 区间，观察 T_on 与 QRS_off 几乎重合的特征。",
+      "annotation_sop": {
+        "st_t_logic": "标注 T_on 时需非常靠近 QRS_off。ST 段几乎被压缩为一个点。",
+        "six_point_strategy": "重点校对 QTc 的极低值。"
+      },
+      "measurement_benchmarks": {
+        "QTc_interval": "< 350 ms",
+        "ST_length": "< 40 ms"
+      },
+      "decision_logic": "QTc 显著缩短 + ST 段消失 = 标注高钙图形",
+      "expert_summaries": {
+        "local": "临床较少见。标注员容易误认为 QRS 增宽（因 T 与 QRS 融合）。",
+        "intl": "强调 T 波起始点直接连接在 J 点上的特征，即‘没有 ST 段的心电图’。",
+        "confusion": "短 QT 综合征 (SQTS)、洋地黄效应"
+      },
+      "一句话机制解释": "高钙缩短心肌动作电位 2 期平台期，导致复极过快开始。",
+      "最易混淆对象": [
+        "短 QT 综合征 (SQTS)",
+        "洋地黄效应"
+      ]
+    },
+    {
+      "id": 50,
+      "concept_name": "Hypocalcemia",
+      "中文名": "低钙血症",
+      "category": "mimic",
+      "scp_code": "EL",
+      "aha_code": "None",
+      "一句话定义": "血钙减低导致 2 期平台期延长，表现为 ST 段平直延长及 QT 间期增加。",
+      "关键判读点": [
+        "【核心】ST 段显著延长且平直。",
+        "【QT】QT 间期由于 ST 延长而显著增加。",
+        "【形态】T 波本身形态和振幅通常保持正常（区别于长 QT 综合征）。"
+      ],
+      "image_url": "./images/50.jpg",
+      "image_note": "对比长 QT：标注长而平直的 ST 段，确认 T 波波形未发生增宽或畸形。",
+      "annotation_sop": {
+        "st_t_logic": "精准标注延长的等电位 ST 段。标注 ST_on 到 T_on 的距离。",
+        "six_point_strategy": "标注长 ST 段是区分低钙与药物引起长 QT 的关键。"
+      },
+      "measurement_benchmarks": {
+        "ST_segment_duration": "Significantly prolonged",
+        "T_wave_morphology": "Usually normal"
+      },
+      "decision_logic": "ST 段平直延长 + QTc 延长 + T 波正常 = 标注低钙图形",
+      "expert_summaries": {
+        "local": "常见于肾衰、甲旁减。强调这种延长是‘平铺直叙’的。",
+        "intl": "强调‘Isolated ST segment prolongation’，即单纯 ST 延长。",
+        "confusion": "长 QT 综合征 (LQTS)、低钾血症"
+      },
+      "一句话机制解释": "低钙显著延长心肌动作电位 2 期平台期，导致复极开始时间推迟。",
+      "最易混淆对象": [
+        "低钾血症",
+        "长 QT 综合征"
+      ]
+    },
+    {
+      "id": 51,
+      "concept_name": "Pulmonary Embolism",
+      "中文名": "急性肺栓塞 (S1Q3T3)",
+      "category": "mimic",
+      "scp_code": "None",
+      "aha_code": "None",
+      "一句话定义": "急性右心负荷引起的特征性组合图形，即 McGinn-White 征。",
+      "关键判读点": [
+        "【S1Q3T3】I 导联深 S 波 + III 导联 Q 波及 T 倒置。",
+        "【轴向】电轴右偏。",
+        "【胸导联】V1-V3 出现对称性 T 波倒置（右心应变表现）。"
+      ],
+      "image_url": "./images/51.jpg",
+      "image_note": "组合特征标注：肢体导联看 I-S 和 III-Q-T，胸导联看右侧 T 倒置。",
+      "annotation_sop": {
+        "qrs_specs": "必须标注 Lead I 的终末 S 波深度点及 Lead III 的起始 Q 波点。",
+        "t_logic": "标注 V1-V3 对称倒置的 T 峰深度。"
+      },
+      "measurement_benchmarks": {
+        "Pattern": "S in I, Q in III, Inverted T in III",
+        "Heart_rate": "Usually Tachycardia (>100 bpm)"
+      },
+      "decision_logic": "S1Q3T3 + 突发窦速 + 右胸 T 波倒置 = 标注肺栓塞图形",
+      "expert_summaries": {
+        "local": "临床高度重视。算法需能够关联多个导联的异构特征进行综合判定。",
+        "intl": "术语 McGinn-White 征。提醒注意 RBBB 的同步出现。",
+        "confusion": "下壁梗死 (IMI)、正常变异 (S1S2S3)"
+      },
+      "一句话机制解释": "急性右心压力负荷突增，导致心脏发生顺钟向转位及右心应变。",
+      "最易混淆对象": [
+        "下壁心肌梗死",
+        "正常变异 (S1S2S3)"
+      ]
+    },
+    {
+      "id": 52,
+      "concept_name": "Tako-Tsubo Cardiomyopathy",
+      "中文名": "应激性心肌病",
+      "category": "mimic",
+      "scp_code": "None",
+      "aha_code": "None",
+      "一句话定义": "形态极像前壁梗死但无血管闭塞，特征为广泛 T 倒置伴极长 QT。",
+      "关键判读点": [
+        "【形态】前壁导联 (V3-V6) 出现深邃、对称的 T 波倒置。",
+        "【参数】QTc 间期极度延长 (> 500ms 常见)。",
+        "【演变】急性期可有轻微 ST 抬高，但复极改变远超除极改变。"
+      ],
+      "image_url": "./images/52.jpg",
+      "image_note": "标注广泛的前壁 T 倒置区间，校对异常延长的 QTc 位点。",
+      "annotation_sop": {
+        "t_logic": "标注巨大 V 字形倒置 T 波。标记 T 降支切点用于 QT 计算。",
+        "six_point_strategy": "标注逻辑同前壁梗死，但需体现导联受累的广泛性。"
+      },
+      "measurement_benchmarks": {
+        "QTc_interval": "> 500 ms (常见特征)",
+        "T_inversion": "Diffuse precordial inversion"
+      },
+      "decision_logic": "广泛前壁 T 倒置 + QTc 极长 + 排除急性闭塞 = 标注 Tako-Tsubo",
+      "expert_summaries": {
+        "local": "称‘破碎心综合征’。算法需区分其与 Wellens 的范围差异。",
+        "intl": "强调急性期 STE 幅度通常小于真实 STEMI，但后期 T 波震荡更剧烈。",
+        "confusion": "急性前壁梗死、Wellens 综合征"
+      },
+      "一句话机制解释": "儿茶酚胺风暴导致心尖部心肌暂时性“瘫痪”或气球样变。",
+      "最易混淆对象": [
+        "急性前壁 STEMI",
+        "Wellens 综合征"
+      ]
+    },
+    {
+      "id": 53,
+      "concept_name": "COPD Pattern",
+      "中文名": "慢性肺阻肺图形",
+      "category": "肥厚",
+      "scp_code": "None",
+      "aha_code": "None",
+      "一句话定义": "肺气肿导致的低电压、电轴右偏与肺型 P 波的综合表现。",
+      "关键判读点": [
+        "【电压】全导联低电压 (尤其是左侧胸导联)。",
+        "【电轴】电轴显著右偏或垂直轴。",
+        "【P波】II、III、aVF 呈现高尖的肺型 P 波。"
+      ],
+      "image_url": "./images/53.jpg",
+      "image_note": "组合特征标注。校对全导联低电压及 II 导联高尖 P 波的振幅。",
+      "annotation_sop": {
+        "p_axis": "标注高尖 P 峰。QRS 幅度需标记峰-峰值以确认低电压。",
+        "six_point_strategy": "重点标注垂直向下的心电轴特征。"
+      },
+      "measurement_benchmarks": {
+        "P_amplitude": "> 0.25 mV in Lead II",
+        "QRS_voltage": "< 0.5 mV (Limb) / 1.0 mV (Precordial)"
+      },
+      "decision_logic": "低电压 + 肺型 P 波 + 电轴右偏 = 标注 COPD Pattern",
+      "expert_summaries": {
+        "local": "算法标注时需识别由于肺部过度充气导致的信号衰减。",
+        "intl": "强调 Lead I 导联 QRS 振幅极低（甚至接近等电位线）的特征。",
+        "confusion": "低电压 (LVOLT)、单纯 RAE"
+      },
+      "一句话机制解释": "肺部过度充气引起心脏垂直位及信号传导物理屏蔽。",
+      "最易混淆对象": [
+        "单纯低电压",
+        "右心房增大 (RAE)"
+      ]
+    },
+    {
+      "id": 54,
+      "concept_name": "Parkinsonian Tremor",
+      "中文名": "帕金森震颤伪差",
+      "category": "mimic",
+      "scp_code": "None",
+      "aha_code": "None",
+      "一句话定义": "肢体震颤引起的高频规律性基线抖动，算法最易误判为房扑。",
+      "关键判读点": [
+        "【频率】4-6 Hz 的节律性波动。",
+        "【特征】肢体导联显著，胸导联通常清晰（可见正常窦性 P 波）。",
+        "【规律】波动可能随患者体位改变而间歇出现。"
+      ],
+      "image_url": "./images/54.jpg",
+      "image_note": "噪声压力测试点：标注 4-6Hz 的干扰段，寻找被噪声遮盖的正常 P 波点。",
+      "annotation_sop": {
+        "six_point_strategy": "难点。寻找不受干扰的导联标注 P_on/off。若无法识别，标记为 Artifact 区间。"
+      },
+      "measurement_benchmarks": {
+        "Noise_frequency": "4 - 6 Hz",
+        "Consistency": "Intermittent"
+      },
+      "decision_logic": "规律微细抖动 + 隐藏窦性 P + 胸导清晰 = 标注震颤伪差",
+      "expert_summaries": {
+        "local": "标注员常误标为房扑。重点看基线是否真的有等电位线。",
+        "intl": "肢体震颤特有的频率分量。算法应能通过频域分析识别此类伪差。",
+        "confusion": "心房扑动 (AFLT)、房颤 (AFIB)"
+      },
+      "一句话机制解释": "骨骼肌快速震颤产生的电信号干扰，其频率掩盖了基线特征。",
+      "最易混淆对象": [
+        "心房扑动 (AFLT)",
+        "心房颤动 (AFIB)"
+      ]
+    },
+    {
+      "id": 55,
+      "concept_name": "Electrical Alternans",
+      "中文名": "电交替",
+      "category": "mimic",
+      "scp_code": "None",
+      "aha_code": "None",
+      "一句话定义": "QRS 波、P 波或 T 波的振幅随心搏呈 1:1 的高低交替，常提示心包积液。",
+      "关键判读点": [
+        "【规律】每搏振幅规律性高低变化。必须连续出现。",
+        "【临床】常伴有窦性心动过速和低电压。"
+      ],
+      "image_url": "./images/55.jpg",
+      "image_note": "特征提取点：标注相邻两搏 R 峰振幅的差值，确认高-低-高-低序列。",
+      "annotation_sop": {
+        "qrs_specs": "必须连续标注至少 4 个以上心搏，记录 R 峰顶点的垂直波动路径。"
+      },
+      "measurement_benchmarks": {
+        "Amplitude_variation": "Alternating beats (> 0.1mV diff)",
+        "Stability": "Persistent across leads"
+      },
+      "decision_logic": "规整的高低交替 QRS 波 + 排除二联律 = 标注电交替",
+      "expert_summaries": {
+        "local": "提示心脏在大量积液中摆动 (Swinging Heart)。",
+        "intl": "区分‘总电交替’与单纯‘QRS 交替’。高度关联心脏压塞。",
+        "confusion": "室性二联律、呼吸引起的波幅变动 (通常变化较慢)"
+      },
+      "一句话机制解释": "心脏在大量心包积液中随节律左右摆动，改变了投影至导联的角度。",
+      "最易混淆对象": [
+        "室性二联律",
+        "呼吸引起的电压变动"
+      ]
+    },
+    {
+      "id": 56,
+      "concept_name": "Pacemaker Rhythm",
+      "中文名": "起搏心律",
+      "category": "mimic",
+      "scp_code": "PACE",
+      "aha_code": "None",
+      "一句话定义": "人工脉冲驱动的心律，特征为极窄的垂直起搏钉 (Spike)。",
+      "关键判读点": [
+        "【Spike】在 P 或 QRS 前出现极细的垂线。",
+        "【形态】心室起搏后的 QRS 通常 > 120ms 且呈 LBBB 形态。",
+        "【关系】钉子后面必须紧跟对应的波形。"
+      ],
+      "image_url": "./images/56.jpg",
+      "image_note": "精准标注 Spike 信号点位。注意单极与双极起搏器钉幅的差异。",
+      "annotation_sop": {
+        "six_point_strategy": "新增 Spike 标注位点。标记 Spike 起始。QRS_on 标记在钉子后的波形起跳点。"
+      },
+      "measurement_benchmarks": {
+        "Spike_width": "< 2 ms",
+        "Ventricular_QRS": "Usually LBBB pattern"
+      },
+      "decision_logic": "起搏钉 + 对应宽 QRS/P波 = 标注 PACE",
+      "expert_summaries": {
+        "local": "注意双腔起搏可能导致 P、QRS 均有钉。钉子极小时容易漏标。",
+        "intl": "强调识别‘融合波’与‘伪融合波’，即自主心律与起搏脉冲的竞争。",
+        "confusion": "左束支阻滞、室性异位心律"
+      },
+      "一句话机制解释": "人工电脉冲直接刺激心肌引起局部除极并缓慢扩散至全室。",
+      "最易混淆对象": [
+        "左束支阻滞",
+        "室性心动过速"
+      ]
+    },
+    {
+      "id": 57,
+      "concept_name": "Ventricular Bigeminy",
+      "中文名": "室性二联律",
+      "category": "节律",
+      "scp_code": "BIGU",
+      "aha_code": "None",
+      "一句话定义": "1 正常搏动 + 1 室性早搏的固定配对模式。",
+      "image_url": "./images/57.jpg",
+      "image_note": "成对标注波形。校对偶联间期是否锁定（Fixed Coupling）。",
+      "annotation_sop": {
+        "six_point_strategy": "按‘窄-宽’循环标注。重点记录早搏的偶联间期数值。"
+      },
+      "measurement_benchmarks": {
+        "Pattern": "1:1 Ratio of Sinus to PVC",
+        "Coupling_interval": "Strictly fixed"
+      },
+      "decision_logic": "1:1 宽窄相间节律 = 标注室性二联律",
+      "expert_summaries": {
+        "local": "提示心肌高度兴奋性。常关联洋地黄用药或电解质紊乱。",
+        "intl": "强调对偶联间期稳定性的分析，以区分折返性与自律性起搏点。",
+        "confusion": "房早伴差传二联律"
+      },
+      "一句话机制解释": "心室内异位起搏点被窦律触发，形成固定的 1:1 配对折返。",
+      "最易混淆对象": [
+        "房早伴差异传导二联律",
+        "房扑 2:1 伴差传"
+      ]
+    },
+    {
+      "id": 58,
+      "concept_name": "Multifocal Atrial Tachycardia",
+      "中文名": "多源性房性心动过速",
+      "category": "节律",
+      "scp_code": "MAT",
+      "aha_code": "55",
+      "一句话定义": "心率 > 100 且在同一导联内至少有 3 种不同形态的 P 波。",
+      "image_url": "./images/58.jpg",
+      "image_note": "标注至少三种异形 P 波的 P_on/off 边界。寻找不齐的 RR 及清晰的等电位线。",
+      "annotation_sop": {
+        "p_axis": "繁重标注。每一搏需独立标注 P_on/off。记录其异质性形态。",
+        "six_point_strategy": "寻找并标记两个波形间的等电位水平，以排除房颤。"
+      },
+      "measurement_benchmarks": {
+        "P_morphology": "≥ 3 different types",
+        "Heart_rate": "100 - 150 bpm"
+      },
+      "decision_logic": "3种P形态 + 快心率 + RR不等 + 有等电位线 = 标注 MAT",
+      "expert_summaries": {
+        "local": "常提示严重肺病 (COPD)。算法需具备 P 波聚类分析能力。",
+        "intl": "被称为‘The AFib Imitator’。由于基线可见，算法应能检测 P 向量段。",
+        "confusion": "心房颤动 (房颤基线无等电位线)、游走性起搏点 (心率<100)"
+      },
+      "一句话机制解释": "心房内多个异位起搏点竞争性发放冲动，每个周期均不同。",
+      "最易混淆对象": [
+        "心房颤动 (房颤无 P 波)",
+        "游走性心律点"
+      ]
+    },
+    {
+      "id": 59,
+      "concept_name": "Accelerated Idioventricular Rhythm",
+      "中文名": "加速性心室自主心律 (AIVR)",
+      "category": "节律",
+      "scp_code": "None",
+      "aha_code": "None",
+      "一句话定义": "频率 60-110 bpm 的缓慢室性心律，常见于心梗后的再灌注标志。",
+      "image_url": "./images/59.jpg",
+      "image_note": "标注宽大 QRS 序列，寻找消失的窦性 P 波及与窦律过渡时的融合波点。",
+      "annotation_sop": {
+        "qrs_specs": "标注宽 QRS 段的起止。在 AIVR 启动与终止处标注融合波点。"
+      },
+      "measurement_benchmarks": {
+        "Rate": "60 - 110 bpm",
+        "QRS_width": "> 120 ms"
+      },
+      "decision_logic": "宽 QRS + 频率 60-110 bpm + 无窦 P = 标注 AIVR",
+      "expert_summaries": {
+        "local": "临床视为良性再灌注信号。标注重点在于确认频率非‘室速’级别。",
+        "intl": "术语 AIVR。识别自主心律与室性起搏点的交替规律。",
+        "confusion": "室性心动过速 (VT, 心率>120)、室性逸搏心律 (心率<40)"
+      },
+      "一句话机制解释": "心室逸搏点自律性短时间超过窦结，常见于冠脉再灌注期。",
+      "最易混淆对象": [
+        "室性心动过速 (VT)",
+        "室性逸搏心律"
+      ]
+    },
+    {
+      "id": 60,
+      "concept_name": "Torsades de Pointes",
+      "中文名": "尖端扭转性室速 (TdP)",
+      "category": "节律",
+      "scp_code": "None",
+      "aha_code": "None",
+      "一句话定义": "伴有长 QT 间期的特殊多形性室速，QRS 轴线围绕基线扭转。",
+      "image_url": "./images/60.jpg",
+      "image_note": "核心标注：纺锤形起止及轴旋转节点。确认发作前的长 QT 基础。",
+      "annotation_sop": {
+        "six_point_strategy": "标注整个扭转段。由于波形高度异质，标记 QRS 的包络线（Envelope）。"
+      },
+      "measurement_benchmarks": {
+        "Pattern": "Spindle-shaped (纺锤样) twisting",
+        "Preceding_QTc": "Prolonged (>500ms)"
+      },
+      "decision_logic": "多形宽 QRS + 围绕等电位线扭转 + 长 QT 背景 = 标注 TdP",
+      "expert_summaries": {
+        "local": "急诊极高危。标注员应立即触发系统最高级预警。‘见 T 补镁’。",
+        "intl": "强调其‘短-长-短’的诱发规律。区分于普通的 Polymorphic VT。",
+        "confusion": "多形性室速 (Polymorphic VT, 无长QT背景)、室颤"
+      },
+      "一句话机制解释": "长 QT 背景下 R-on-T 现象引发的多点折返，导致电轴不断旋动。",
+      "最易混淆对象": [
+        "多形性室速 (无长QT诱因)",
+        "心室颤动"
+      ]
+    }
+  ]
+}

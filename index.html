@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>ECG PRO 2.4</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,700;1,800&display=swap');
+        
+        :root { --blue-brand: #3B82F6; --dark-bg: #0F172A; }
+        body { background-color: #F8FAFC; color: #1E293B; font-family: -apple-system, system-ui, sans-serif; }
+        .logo-text { font-family: 'Inter', sans-serif; font-style: italic; font-weight: 800; letter-spacing: -0.05em; }
+        
+        /* 紧凑型定义框 */
+        .def-box {
+            position: relative; background-color: #F1F5F9;
+            padding: 16px 20px; border-radius: 20px; margin-top: 12px;
+            line-height: 1.5; color: #475569; font-size: 0.95rem;
+        }
+        .def-box::before {
+            content: ""; position: absolute; left: 0; top: 20%; height: 60%;
+            width: 4px; background-color: var(--blue-brand); border-radius: 0 10px 10px 0;
+        }
+
+        /* 机制盒视觉增强 */
+        .mech-blue-box {
+            background-color: #EFF6FF; border: 1px solid #DBEAFE;
+            border-left: 5px solid var(--blue-brand); border-radius: 16px;
+            padding: 16px; margin: 12px 0;
+        }
+
+        /* 底部导航栏适配 */
+        .safe-bottom { padding-bottom: calc(env(safe-area-inset-bottom) + 12px); }
+        .tab-active { color: var(--blue-brand) !important; }
+        .nav-active { color: #1E293B; font-weight: 800; border-bottom: 3px solid var(--blue-brand); }
+        
+        .view-hidden { display: none; }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        
+        /* 卡片层级 */
+        .main-card { border-radius: 32px; background: #FFFFFF; border: 1px solid #F1F5F9; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02); }
+        .sop-dark-box { background-color: var(--dark-bg); color: #E2E8F0; border-radius: 24px; padding: 20px; }
+        .benchmark-card { background-color: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 12px; padding: 8px 12px; }
+        
+        .btn-press:active { transform: scale(0.96); transition: 0.1s; }
+        .check-item input:checked + span { color: #94A3B8; text-decoration: line-through; }
+        
+        /* 按钮颜色增强 */
+        .bg-mastered { background-color: #22C55E; color: white; }
+        .bg-doubt { background-color: #F43F5E; color: white; }
+    </style>
+</head>
+<body class="pb-24">
+
+    <!-- Header -->
+    <header class="bg-white/90 backdrop-blur-md px-4 py-3 flex items-center justify-between sticky top-0 z-50 border-b border-slate-50">
+        <div class="logo-text text-xl">
+            <span class="text-slate-800">ECG</span><span class="text-blue-600">PRO</span><span class="ml-1 text-[8px] text-slate-300 uppercase">v2.4</span>
+        </div>
+        <div class="flex-grow max-w-xs mx-3 relative">
+            <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-300 text-[10px]"></i>
+            <input type="text" id="searchInput" placeholder="搜索波形、代码..." 
+                class="w-full bg-slate-100 border-none rounded-full py-1.5 pl-8 pr-3 text-xs focus:ring-1 focus:ring-blue-200 outline-none transition-all">
+        </div>
+        <button class="text-slate-400" onclick="switchView('me')"><i class="fa-solid fa-circle-user text-xl"></i></button>
+    </header>
+
+    <!-- 顶部导航 -->
+    <nav id="top-nav" class="bg-white px-4 flex gap-6 overflow-x-auto hide-scrollbar sticky top-[52px] z-40 border-b border-slate-50">
+        <button onclick="filterCards('all', this)" class="nav-item nav-active pb-2 whitespace-nowrap text-slate-400 text-xs font-bold">全部</button>
+        <button onclick="filterCards('节律', this)" class="nav-item pb-2 whitespace-nowrap text-slate-400 text-xs font-bold">节律</button>
+        <button onclick="filterCards('传导', this)" class="nav-item pb-2 whitespace-nowrap text-slate-400 text-xs font-bold">传导</button>
+        <button onclick="filterCards('缺血梗死', this)" class="nav-item pb-2 whitespace-nowrap text-slate-400 text-xs font-bold">缺血</button>
+        <button onclick="filterCards('肥厚', this)" class="nav-item pb-2 whitespace-nowrap text-slate-400 text-xs font-bold">肥厚</button>
+        <button onclick="filterCards('mimic', this)" class="nav-item pb-2 whitespace-nowrap text-slate-400 text-xs font-bold">Mimic</button>
+    </nav>
+
+    <!-- View: Learn -->
+    <main id="view-learn" class="max-w-xl mx-auto p-3 space-y-6">
+        <div id="learn-container" class="space-y-6 mt-2">
+            <div class="py-20 text-center text-slate-300 font-bold uppercase tracking-widest text-xs animate-pulse">Syncing Database...</div>
+        </div>
+    </main>
+
+    <!-- View: Quiz (自测视图 - 找回反馈逻辑) -->
+    <section id="view-quiz" class="view-hidden max-w-xl mx-auto p-4 animate-fade">
+        <div id="quiz-container">
+            <!-- 动态生成自测卡片 -->
+        </div>
+    </section>
+
+    <!-- View: Cases -->
+    <section id="view-cases" class="view-hidden max-w-xl mx-auto p-4 animate-fade">
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-xl font-black">标注案例集</h2>
+            <label class="bg-blue-600 text-white px-4 py-2 rounded-full text-[10px] font-bold cursor-pointer btn-press">
+                <i class="fa-solid fa-plus mr-1"></i>上传
+                <input type="file" id="caseUpload" class="hidden" accept="image/*">
+            </label>
+        </div>
+        <div id="case-container" class="grid grid-cols-2 gap-3"></div>
+    </section>
+
+    <!-- View: Me -->
+    <section id="view-me" class="view-hidden max-w-xl mx-auto p-4 animate-fade text-center">
+        <div class="bg-white rounded-[32px] p-8 border border-slate-100 shadow-sm mb-6">
+            <div class="w-16 h-16 bg-slate-900 text-white rounded-full flex items-center justify-center mx-auto mb-4 text-2xl">
+                <i class="fa-solid fa-dna"></i>
+            </div>
+            <h2 class="text-lg font-black mb-6">我的标注看板</h2>
+            <div class="grid grid-cols-2 gap-4">
+                <div class="bg-slate-50 p-4 rounded-2xl cursor-pointer" onclick="showFavorites()">
+                    <span id="stat-fav" class="block text-3xl font-black text-blue-600 leading-none mb-1">0</span>
+                    <span class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">已收藏</span>
+                </div>
+                <div class="bg-slate-50 p-4 rounded-2xl cursor-pointer" onclick="showMistakes()">
+                    <span id="stat-wrong" class="block text-3xl font-black text-red-500 leading-none mb-1">0</span>
+                    <span class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">需重学</span>
+                </div>
+            </div>
+        </div>
+        <button onclick="resetApp()" class="text-slate-300 text-[10px] font-bold uppercase hover:text-red-400 transition-colors">
+            <i class="fa-solid fa-trash-can mr-1"></i>重置本地进度
+        </button>
+    </section>
+
+    <!-- Bottom Navigation -->
+    <footer class="bg-white/95 backdrop-blur-xl fixed bottom-0 left-0 right-0 border-t border-slate-100 flex justify-between items-center z-50 pt-3 safe-bottom px-8">
+        <button id="tab-learn" onclick="switchView('learn')" class="tab-btn tab-active flex flex-col items-center gap-1 flex-1">
+            <i class="fa-solid fa-book-medical text-lg"></i>
+            <span class="text-[9px] font-bold">标准库</span>
+        </button>
+        <button id="tab-cases" onclick="switchView('cases')" class="tab-btn flex flex-col items-center gap-1 text-slate-300 flex-1">
+            <i class="fa-solid fa-folder-tree text-lg"></i>
+            <span class="text-[9px] font-bold">案例</span>
+        </button>
+        <button id="tab-quiz" onclick="switchView('quiz')" class="tab-btn flex flex-col items-center gap-1 text-slate-300 flex-1">
+            <i class="fa-solid fa-vial text-lg"></i>
+            <span class="text-[9px] font-bold">自测</span>
+        </button>
+        <button id="tab-me" onclick="switchView('me')" class="tab-btn flex flex-col items-center gap-1 text-slate-300 flex-1">
+            <i class="fa-solid fa-user-check text-lg"></i>
+            <span class="text-[9px] font-bold">我的</span>
+        </button>
+    </footer>
+
+    <!-- Image Modal -->
+    <div id="modal" class="fixed inset-0 z-[100] hidden bg-slate-950/95 flex flex-col justify-center items-center p-4" onclick="closeModal()">
+        <img id="modalImg" src="" class="max-w-full max-h-[75vh] rounded-lg">
+    </div>
+
+    <script>
+        let allCards = [];
+        let userData = {
+            favs: JSON.parse(localStorage.getItem('ecg_favs')) || [],
+            wrongs: JSON.parse(localStorage.getItem('ecg_wrongs')) || [],
+            cases: JSON.parse(localStorage.getItem('ecg_cases')) || []
+        };
+
+        async function init() {
+            try {
+                const res = await fetch('data.json', { cache: 'no-cache' });
+                const data = await res.json();
+                allCards = data.cards || [];
+                renderLearn(allCards);
+                updateStats();
+            } catch (e) {
+                document.getElementById('learn-container').innerHTML = `<div class="py-20 text-center text-slate-400 text-xs">加载受阻，请确保服务器环境下运行 data.json</div>`;
+            }
+        }
+
+        // 核心渲染逻辑
+        function renderLearn(cards) {
+            const container = document.getElementById('learn-container');
+            if (cards.length === 0) {
+                container.innerHTML = '<div class="py-20 text-center text-slate-300 text-xs font-bold uppercase">No Matches</div>';
+                return;
+            }
+            container.innerHTML = cards.map(c => `
+                <div class="main-card p-6 md:p-8 animate-fade">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="flex gap-2">
+                            <span class="bg-blue-50 text-blue-600 text-[8px] font-black px-2 py-0.5 rounded-full uppercase">${c.category}</span>
+                            <span class="bg-slate-900 text-white text-[8px] font-bold px-2 py-0.5 rounded-lg uppercase tracking-tighter">SCP: ${c.scp_code || 'N/A'}</span>
+                        </div>
+                        <button onclick="toggleFav(${c.id})" class="${userData.favs.includes(c.id) ? 'text-amber-400' : 'text-slate-200'} text-2xl btn-press">
+                            <i class="fa-solid fa-star"></i>
+                        </button>
+                    </div>
+                    
+                    <h2 class="text-2xl md:text-4xl font-black text-slate-800 mb-0.5">${c.中文名}</h2>
+                    <p class="text-slate-400 text-[10px] md:text-sm font-semibold italic mb-4">${c.concept_name}</p>
+                    
+                    <div class="def-box">${c.一句话定义}</div>
+
+                    <!-- 判定逻辑提示 -->
+                    <div class="mt-4 bg-blue-600 text-white px-4 py-3 rounded-2xl flex items-start gap-3 shadow-lg shadow-blue-100">
+                        <i class="fa-solid fa-balance-scale text-white/40 text-[10px] mt-1"></i>
+                        <div class="text-xs font-bold leading-tight">
+                             <span class="text-[7px] opacity-60 uppercase block mb-0.5 tracking-widest">Logic Rule</span>
+                             ${c.decision_logic}
+                        </div>
+                    </div>
+
+                    <!-- 图片 -->
+                    <div class="mt-6 rounded-2xl overflow-hidden border-4 border-slate-50 shadow-inner cursor-zoom-in group relative" onclick="openModal('${c.image_url}')">
+                        <img src="${c.image_url}" class="w-full object-cover min-h-[120px]">
+                    </div>
+                    <p class="text-[9px] text-slate-300 mt-3 px-2 italic leading-relaxed"><i class="fa-solid fa-quote-left mr-1"></i> ${c.image_note || ''}</p>
+
+                    <!-- Metrics & Checklist -->
+                    <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="space-y-2">
+                            <p class="text-[8px] font-black text-slate-400 uppercase tracking-widest px-1">Measurement Metrics</p>
+                            <div class="grid grid-cols-2 md:grid-cols-1 gap-2">
+                                ${Object.entries(c.measurement_benchmarks || {}).map(([key, val]) => `
+                                    <div class="benchmark-card">
+                                        <span class="block text-[7px] font-black text-blue-400 uppercase">${key}</span>
+                                        <span class="text-[10px] font-black text-slate-800">${val}</span>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                        <div class="bg-slate-50 p-4 rounded-2xl">
+                            <p class="text-[8px] font-black text-blue-500 uppercase tracking-widest mb-3">Morphology Checklist</p>
+                            <div class="space-y-2">
+                                ${(c.关键判读点 || []).map(point => `
+                                    <label class="check-item flex items-start gap-2 cursor-pointer group">
+                                        <input type="checkbox" class="mt-1 w-3 h-3 rounded border-slate-300 text-blue-600">
+                                        <span class="text-[11px] font-bold text-slate-600 group-hover:text-slate-900 leading-tight">${point}</span>
+                                    </label>
+                                `).join('')}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SOP 盒 -->
+                    <div class="mt-5 sop-dark-box">
+                        <div class="flex items-center gap-2 mb-3 border-b border-white/10 pb-2">
+                            <i class="fa-solid fa-pencil-ruler text-blue-400 text-[10px]"></i>
+                            <p class="text-[9px] font-black uppercase text-blue-400">Annotation SOP</p>
+                        </div>
+                        <div class="space-y-3 text-[10px] leading-snug">
+                            <div class="flex gap-2 text-slate-300"><span class="text-blue-300 font-bold whitespace-nowrap underline decoration-blue-800">P轴</span>${c.annotation_sop?.p_axis}</div>
+                            <div class="flex gap-2 text-slate-300"><span class="text-blue-300 font-bold whitespace-nowrap underline decoration-blue-800">QRS</span>${c.annotation_sop?.qrs_specs}</div>
+                            <div class="flex gap-2 text-slate-300"><span class="text-blue-300 font-bold whitespace-nowrap underline decoration-blue-800">策略</span>${c.annotation_sop?.six_point_strategy}</div>
+                        </div>
+                    </div>
+
+                    <!-- 展开详情 -->
+                    <details class="mt-5 group border border-slate-100 rounded-2xl overflow-hidden">
+                        <summary class="list-none p-3 flex justify-between items-center cursor-pointer bg-slate-50/30 text-[10px] font-bold text-slate-400 uppercase">
+                            <span><i class="fa-solid fa-layer-group mr-1"></i> 医学背景与摘要</span>
+                            <i class="fa-solid fa-chevron-down group-open:rotate-180 transition-transform"></i>
+                        </summary>
+                        <div class="p-4 bg-white space-y-4 text-xs border-t border-slate-100">
+                            <div class="mech-blue-box">
+                                <span class="text-[8px] font-black text-blue-500 bg-blue-100 px-1.5 py-0.5 rounded uppercase mb-2 inline-block">Mechanism</span>
+                                <p class="text-slate-700 leading-relaxed font-bold">${c.一句话机制解释}</p>
+                            </div>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div><span class="text-slate-400 font-bold uppercase text-[7px]">Local</span><p class="text-[10px] text-slate-500 mt-1 leading-relaxed">${c.expert_summaries?.local}</p></div>
+                                <div><span class="text-blue-400 font-bold uppercase text-[7px]">INTL</span><p class="text-[10px] text-slate-500 mt-1 leading-relaxed">${c.expert_summaries?.intl}</p></div>
+                            </div>
+                            <div class="bg-rose-50 p-3 rounded-lg text-[10px] text-rose-600 font-bold">🚨 混淆：${(c.最易混淆对象 || []).join('、')}</div>
+                        </div>
+                    </details>
+                </div>
+            `).join('');
+        }
+
+        // --- 自测挑战 (找回“掌握/疑虑”逻辑) ---
+        let currentQuizCard = null;
+        function loadQuiz() {
+            const container = document.getElementById('quiz-container');
+            if (allCards.length === 0) return;
+
+            // 策略：优先从难点库抽题
+            const pool = (userData.wrongs.length > 0 && Math.random() > 0.4) 
+                        ? allCards.filter(c => userData.wrongs.includes(c.id)) 
+                        : allCards;
+            
+            currentQuizCard = pool[Math.floor(Math.random() * pool.length)];
+
+            container.innerHTML = `
+                <div class="main-card p-10 text-center animate-fade shadow-2xl">
+                    <p class="text-[9px] font-black text-blue-500 uppercase tracking-widest mb-8">标注自测挑战 / QUIZ</p>
+                    <div class="rounded-3xl overflow-hidden border-2 border-slate-50 mb-8 bg-slate-50 shadow-inner">
+                        <img src="${currentQuizCard.image_url}" class="w-full object-contain max-h-60" onclick="openModal('${currentQuizCard.image_url}')">
+                    </div>
+                    
+                    <div id="quiz-answer" class="hidden">
+                        <h2 class="text-3xl font-black text-slate-800 mb-2">${currentQuizCard.中文名}</h2>
+                        <div class="bg-blue-50 text-blue-600 p-4 rounded-2xl text-xs font-bold leading-relaxed mb-8">
+                            判定依据：${currentQuizCard.decision_logic}
+                        </div>
+                        <div class="flex gap-4">
+                            <button onclick="quizFeedback(true)" class="flex-1 bg-mastered py-4 rounded-2xl font-bold btn-press shadow-lg shadow-green-100">完全掌握</button>
+                            <button onclick="quizFeedback(false)" class="flex-1 bg-doubt py-4 rounded-2xl font-bold btn-press shadow-lg shadow-rose-100">仍有疑虑</button>
+                        </div>
+                    </div>
+                    
+                    <div id="quiz-init">
+                        <button onclick="revealQuiz()" class="w-full bg-slate-900 text-white py-5 rounded-2xl font-bold shadow-xl">显示判定答案</button>
+                    </div>
+                </div>`;
+        }
+
+        function revealQuiz() {
+            document.getElementById('quiz-answer').classList.remove('hidden');
+            document.getElementById('quiz-init').classList.add('hidden');
+        }
+
+        function quizFeedback(isMastered) {
+            if (isMastered) {
+                // 如果掌握了，从难点本移除
+                userData.wrongs = userData.wrongs.filter(id => id !== currentQuizCard.id);
+            } else {
+                // 如果有疑虑，加入难点本
+                if (!userData.wrongs.includes(currentQuizCard.id)) {
+                    userData.wrongs.push(currentQuizCard.id);
+                }
+            }
+            saveData();
+            updateStats();
+            loadQuiz(); // 下一题
+        }
+
+        // --- 进度统计 ---
+        function updateStats() {
+            document.getElementById('stat-fav').innerText = userData.favs.length;
+            document.getElementById('stat-wrong').innerText = userData.wrongs.length;
+        }
+
+        // --- 视图切换逻辑 ---
+        function switchView(view) {
+            document.querySelectorAll('main, section, nav').forEach(el => el.classList.add('view-hidden'));
+            document.getElementById(`view-${view}`).classList.remove('view-hidden');
+            if(view === 'learn') document.getElementById('top-nav').classList.remove('view-hidden');
+            
+            document.querySelectorAll('.tab-btn').forEach(b => {
+                b.classList.remove('tab-active'); b.classList.add('text-slate-300');
+            });
+            document.getElementById(`tab-${view}`).classList.add('tab-active');
+            document.getElementById(`tab-${view}`).classList.remove('text-slate-300');
+
+            if(view === 'quiz') loadQuiz();
+            if(view === 'cases') renderCases();
+            if(view === 'me') updateStats();
+            window.scrollTo(0,0);
+        }
+
+        function filterCards(cat, el) {
+            document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('nav-active'));
+            el.classList.add('nav-active');
+            const data = cat === 'all' ? allCards : allCards.filter(c => c.category === cat);
+            renderLearn(data);
+        }
+
+        function toggleFav(id) {
+            const idx = userData.favs.indexOf(id);
+            if (idx > -1) userData.favs.splice(idx, 1);
+            else userData.favs.push(id);
+            saveData(); updateStats();
+            renderLearn(filterCurrentSelection());
+        }
+
+        function filterCurrentSelection() {
+            const activeEl = document.querySelector('.nav-item.nav-active');
+            const catName = activeEl ? activeEl.innerText : '全部';
+            const searchVal = document.getElementById('searchInput').value.toLowerCase();
+            let data = catName === '全部' ? allCards : allCards.filter(c => c.category === catName);
+            return data.filter(c => (c.中文名 || '').includes(searchVal) || (c.concept_name || '').toLowerCase().includes(searchVal));
+        }
+
+        function saveData() {
+            localStorage.setItem('ecg_favs', JSON.stringify(userData.favs));
+            localStorage.setItem('ecg_wrongs', JSON.stringify(userData.wrongs));
+            localStorage.setItem('ecg_cases', JSON.stringify(userData.cases));
+        }
+
+        function renderCases() {
+            const container = document.getElementById('case-container');
+            if (userData.cases.length === 0) { container.innerHTML = '<div class="col-span-2 py-40 text-center text-slate-200 text-xs font-bold">病例库空空如也</div>'; return; }
+            container.innerHTML = userData.cases.map(c => `
+                <div class="bg-white p-2 rounded-2xl border border-slate-100 shadow-sm animate-fade">
+                    <img src="${c.img}" class="w-full h-32 object-cover rounded-xl mb-2" onclick="openModal('${c.img}')">
+                    <p class="text-[8px] font-black text-slate-300 text-center">${c.date}</p>
+                </div>`).join('');
+        }
+
+        document.getElementById('caseUpload').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            const reader = new FileReader();
+            reader.onload = (ev) => { userData.cases.unshift({ id: Date.now(), img: ev.target.result, date: new Date().toLocaleDateString() }); saveData(); renderCases(); };
+            reader.readAsDataURL(file);
+        });
+
+        function showFavorites() { renderLearn(allCards.filter(c => userData.favs.includes(c.id))); switchView('learn'); }
+        function showMistakes() { renderLearn(allCards.filter(c => userData.wrongs.includes(c.id))); switchView('learn'); }
+        function openModal(url) { document.getElementById('modalImg').src = url; document.getElementById('modal').classList.remove('hidden'); }
+        function closeModal() { document.getElementById('modal').classList.add('hidden'); }
+        function resetApp() { if(confirm("重置将清空所有标注进度。确认？")) { localStorage.clear(); location.reload(); } }
+
+        document.getElementById('searchInput').addEventListener('input', () => renderLearn(filterCurrentSelection()));
+        window.onload = init;
+    </script>
+</body>
+</html>
